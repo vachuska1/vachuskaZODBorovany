@@ -72,15 +72,25 @@ export default function MenuPage() {
               <div className="bg-gray-800 text-white p-4">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold">Tento týden</h2>
-                  <Button
-                    onClick={() => handlePrint(pdfUrls.week1, "Tento týden")}
-                    variant="outline"
-                    size="sm"
-                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                  >
-                    <Printer className="h-4 w-4 mr-2" />
-                    Tisk
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => handlePrint(pdfUrls.week1, "Tento týden")}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    >
+                      <Printer className="h-4 w-4 mr-2" />
+                      Tisk
+                    </Button>
+                    <Button
+                      onClick={() => window.open(pdfUrls.week1, "_blank")}
+                      variant="outline"
+                      size="sm"
+                      className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+                    >
+                      📱 Zobrazit PDF
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div className="h-[700px]">
@@ -98,15 +108,25 @@ export default function MenuPage() {
               <div className="bg-gray-700 text-white p-4">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold">Příští týden</h2>
-                  <Button
-                    onClick={() => handlePrint(pdfUrls.week2, "Příští týden")}
-                    variant="outline"
-                    size="sm"
-                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                  >
-                    <Printer className="h-4 w-4 mr-2" />
-                    Tisk
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => handlePrint(pdfUrls.week2, "Příští týden")}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    >
+                      <Printer className="h-4 w-4 mr-2" />
+                      Tisk
+                    </Button>
+                    <Button
+                      onClick={() => window.open(pdfUrls.week2, "_blank")}
+                      variant="outline"
+                      size="sm"
+                      className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+                    >
+                      📱 Zobrazit PDF
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div className="h-[700px]">
