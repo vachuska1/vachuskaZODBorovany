@@ -1,11 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { Redis } from "@upstash/redis"
 
-// In-memory storage for uploaded PDF URLs
-// This will reset on each deployment, but that's fine for this use case
-const uploadedMenuUrls = {
-  week1: null as string | null,
-  week2: null as string | null,
-}
+// Vytvoření Redis klienta s vašimi credentials
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || "https://romantic-hound-16277.upstash.io",
+  token: process.env.KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
+})
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Neplatný týden" }, { status: 400 })
     }
 
-    // Store the uploaded PDF URL
-    uploadedMenuUrls[week as keyof typeof uploadedMenuUrls] = url
+    // Uložení URL do Redis
+    await redis.set(`menu:${week}`, url)
 
     console.log(`Updated ${week} to: ${url}`)
 
@@ -35,9 +35,23 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  // Return uploaded URLs if available, otherwise default to HTML pages
-  return NextResponse.json({
-    week1Url: uploadedMenuUrls.week1 || "/api/menu/default/week1",
-    week2Url: uploadedMenuUrls.week2 || "/api/menu/default/week2",
-  })
+  try {
+    // Získání URL z Redis
+    const week1Url = await redis.get<string>(`menu:week1`)
+    const week2Url = await redis.get<string>(`menu:week2`)
+
+    return NextResponse.json({
+      week1Url: week1Url || "/api/menu/default/week1",
+      week2Url: week2Url || "/api/menu/default/week2",
+    })
+  } catch (error) {
+    console.error("Get menu error:", error)
+    return NextResponse.json(
+      {
+        week1Url: "/api/menu/default/week1",
+        week2Url: "/api/menu/default/week2",
+      },
+      { status: 500 },
+    )
+  }
 }

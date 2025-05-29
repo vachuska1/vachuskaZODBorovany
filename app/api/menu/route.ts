@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server"
+import { Redis } from "@upstash/redis"
 
-// In-memory storage for uploaded PDF URLs
-// This will reset on each deployment, but that's fine for this use case
-const uploadedMenuUrls = {
-  week1: null as string | null,
-  week2: null as string | null,
-}
+// Vytvoření Redis klienta s vašimi credentials
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || "https://romantic-hound-16277.upstash.io",
+  token: process.env.KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
+})
 
 export async function GET() {
   try {
-    // Check if we have uploaded URLs, otherwise use the default endpoints
-    const week1Url = uploadedMenuUrls.week1 || "/api/menu/generate-default-pdf?week=week1"
-    const week2Url = uploadedMenuUrls.week2 || "/api/menu/generate-default-pdf?week=week2"
+    // Získání URL z Redis
+    const week1Url = (await redis.get<string>(`menu:week1`)) || "/api/menu/generate-default-pdf?week=week1"
+    const week2Url = (await redis.get<string>(`menu:week2`)) || "/api/menu/generate-default-pdf?week=week2"
 
     return NextResponse.json({
       week1Url,
