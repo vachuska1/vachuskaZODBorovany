@@ -1,10 +1,9 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { useState } from "react"
 import { Printer } from "lucide-react"
 
 export default function DocumentsPage() {
@@ -35,6 +34,11 @@ export default function DocumentsPage() {
     }
   }
 
+  // Funkce pro vytvoření PDF.js URL - STEJNĚ JAKO U JÍDELNÍCH LÍSTKŮ
+  const getPdfJsUrl = (pdfUrl: string) => {
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + pdfUrl)}`
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,38 +46,38 @@ export default function DocumentsPage() {
 
         <div className="space-y-8">
           {documents.map((document) => (
-            <Card key={document.id} className="bg-white shadow-lg border border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>{document.title}</span>
-                  <Button
-                    onClick={() => handlePrint(document.url, document.title)}
-                    variant="outline"
-                    size="sm"
-                    className="bg-gray-800 text-white border-gray-300 hover:bg-gray-700"
-                  >
-                    <Printer className="h-4 w-4 mr-2" />
-                    {t("print")}
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div key={document.id} className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                <div className="bg-gray-800 text-white p-4">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-bold">{document.title}</h2>
+                    <Button
+                      onClick={() => handlePrint(document.url, document.title)}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    >
+                      <Printer className="h-4 w-4 mr-2" />
+                      {t("print")}
+                    </Button>
+                  </div>
+                </div>
                 {error ? (
-                  <Alert variant="destructive">
+                  <Alert variant="destructive" className="m-4">
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
                 ) : (
-                  <div className="h-[700px]">
+                  <div className="h-[800px]">
                     <iframe
-                      src={`${document.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                      className="w-full h-full border rounded"
+                      src={getPdfJsUrl(document.url)}
+                      className="w-full h-full border-0"
                       title={document.title}
                       onError={() => setError("Chyba při načítání dokumentu")}
                     />
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>

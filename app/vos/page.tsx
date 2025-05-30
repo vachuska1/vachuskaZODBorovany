@@ -23,6 +23,11 @@ export default function VOSPage() {
     }
   }
 
+  // Funkce pro vytvoření PDF.js URL - STEJNĚ JAKO U JÍDELNÍCH LÍSTKŮ
+  const getPdfJsUrl = (pdfUrl: string) => {
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + pdfUrl)}`
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,30 +40,32 @@ export default function VOSPage() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : (
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-            <div className="bg-gray-800 text-white p-4">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold">
-                  {t("vos")} - {t("internalReporting")}
-                </h2>
-                <Button
-                  onClick={handlePrint}
-                  variant="outline"
-                  size="sm"
-                  className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                >
-                  <Printer className="h-4 w-4 mr-2" />
-                  {t("print")}
-                </Button>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gray-800 text-white p-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold">
+                    {t("vos")} - {t("internalReporting")}
+                  </h2>
+                  <Button
+                    onClick={handlePrint}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    {t("print")}
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="h-[800px]">
-              <iframe
-                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                className="w-full h-full border-0"
-                title={t("internalReporting")}
-                onError={() => setError("Chyba při načítání dokumentu")}
-              />
+              <div className="h-[800px]">
+                <iframe
+                  src={getPdfJsUrl(pdfUrl)}
+                  className="w-full h-full border-0"
+                  title={t("internalReporting")}
+                  onError={() => setError("Chyba při načítání dokumentu")}
+                />
+              </div>
             </div>
           </div>
         )}

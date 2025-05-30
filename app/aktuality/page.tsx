@@ -10,8 +10,7 @@ export default function NewsPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
 
-  // Použijeme API route pro PDF
-  const pdfUrl = "/api/aktuality/get-pdf"
+  const pdfUrl = "/api/pdfs/aktuality"
 
   const handlePrint = () => {
     const printWindow = window.open(pdfUrl, "_blank", "width=800,height=600")
@@ -26,7 +25,7 @@ export default function NewsPage() {
 
   // Funkce pro vytvoření PDF.js URL - STEJNĚ JAKO U JÍDELNÍCH LÍSTKŮ
   const getPdfJsUrl = (pdfUrl: string) => {
-    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + pdfUrl)}`
   }
 
   return (
@@ -42,7 +41,6 @@ export default function NewsPage() {
           </Alert>
         ) : (
           <div className="max-w-4xl mx-auto">
-            {/* Nabídka práce - STEJNÝ STYL JAKO JÍDELNÍ LÍSTKY */}
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gray-800 text-white p-4">
                 <div className="flex justify-between items-center">
