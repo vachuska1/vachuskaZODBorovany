@@ -81,7 +81,7 @@ export default function HomePage() {
           <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200">
             {/* Logo - Increased by 50% */}
             <div className="text-center mb-8">
-              <Image src="/images/logo.png" alt="ZOD Borovany Logo" width={300} height={150} className="mx-auto" />
+              <Image src="/images/logo.png" alt="ZOD Borovany Logo" width={400} height={200} className="mx-auto" />
             </div>
 
             {/* Company Details */}

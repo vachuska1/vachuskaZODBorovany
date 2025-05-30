@@ -54,8 +54,8 @@ export function Navbar() {
               <Image
                 src="/images/logo.png"
                 alt="ZOD Borovany Logo"
-                width={140}
-                height={70}
+                width={160}
+                height={80}
                 className="h-16 w-auto"
                 priority
               />
