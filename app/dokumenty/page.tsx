@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Printer } from "lucide-react"
@@ -9,16 +9,44 @@ import { Printer } from "lucide-react"
 export default function DocumentsPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
+  const [documentUrls, setDocumentUrls] = useState({
+    stanovy: "/api/pdfs/stanovy",
+    dotace: "/api/pdfs/dotace",
+  })
+
+  useEffect(() => {
+    // Load stanovy URL
+    fetch("/api/documents/get-url?type=stanovy")
+      .then((res) => res.json())
+      .then((data) => {
+        setDocumentUrls((prev) => ({
+          ...prev,
+          stanovy: data.url || "/api/pdfs/stanovy",
+        }))
+      })
+      .catch(() => {})
+
+    // Load dotace URL
+    fetch("/api/documents/get-url?type=dotace")
+      .then((res) => res.json())
+      .then((data) => {
+        setDocumentUrls((prev) => ({
+          ...prev,
+          dotace: data.url || "/api/pdfs/dotace",
+        }))
+      })
+      .catch(() => {})
+  }, [])
 
   const documents = [
     {
       title: t("statutes"),
-      url: "/api/pdfs/stanovy",
+      url: documentUrls.stanovy,
       id: "statutes",
     },
     {
       title: t("grants"),
-      url: "/api/pdfs/dotace",
+      url: documentUrls.dotace,
       id: "grants",
     },
   ]

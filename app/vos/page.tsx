@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Printer } from "lucide-react"
@@ -9,8 +9,18 @@ import { Printer } from "lucide-react"
 export default function VOSPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
+  const [pdfUrl, setPdfUrl] = useState("/api/pdfs/vos")
 
-  const pdfUrl = "/api/pdfs/vos"
+  useEffect(() => {
+    fetch("/api/documents/get-url?type=vos")
+      .then((res) => res.json())
+      .then((data) => {
+        setPdfUrl(data.url || "/api/pdfs/vos")
+      })
+      .catch(() => {
+        setPdfUrl("/api/pdfs/vos")
+      })
+  }, [])
 
   const handlePrint = () => {
     const printWindow = window.open(pdfUrl, "_blank", "width=800,height=600")

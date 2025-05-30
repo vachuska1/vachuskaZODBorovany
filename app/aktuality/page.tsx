@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Printer } from "lucide-react"
@@ -9,8 +9,18 @@ import { Printer } from "lucide-react"
 export default function NewsPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
+  const [pdfUrl, setPdfUrl] = useState("/api/pdfs/aktuality")
 
-  const pdfUrl = "/api/pdfs/aktuality"
+  useEffect(() => {
+    fetch("/api/documents/get-url?type=aktuality")
+      .then((res) => res.json())
+      .then((data) => {
+        setPdfUrl(data.url || "/api/pdfs/aktuality")
+      })
+      .catch(() => {
+        setPdfUrl("/api/pdfs/aktuality")
+      })
+  }, [])
 
   const handlePrint = () => {
     const printWindow = window.open(pdfUrl, "_blank", "width=800,height=600")

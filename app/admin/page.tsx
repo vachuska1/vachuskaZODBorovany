@@ -100,6 +100,35 @@ export default function AdminPage() {
     }
   }
 
+  const handleDocumentUpload = async (file: File, documentType: string) => {
+    setUploading(true)
+    setMessage("")
+
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("documentType", documentType)
+
+    try {
+      const response = await fetch("/api/admin/upload-document", {
+        method: "POST",
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage(`${documentType} byl úspěšně nahrán`)
+      } else {
+        setMessage(data.error || "Chyba při nahrávání souboru")
+      }
+    } catch (error) {
+      console.error("Upload error:", error)
+      setMessage("Chyba při nahrávání souboru")
+    } finally {
+      setUploading(false)
+    }
+  }
+
   const isDefaultUrl = (url: string) => {
     return url.includes("/api/menu/default/")
   }
@@ -250,6 +279,122 @@ export default function AdminPage() {
             </Card>
           </div>
         )}
+
+        {/* Ostatní dokumenty */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center mb-8">📄 Ostatní dokumenty</h2>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro aktuality, VOS a dokumenty</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Aktuality */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Aktuality
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                  <Input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleDocumentUpload(file, "aktuality")
+                    }}
+                    disabled={uploading}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                </div>
+                {uploading && <LoadingSpinner />}
+              </CardContent>
+            </Card>
+
+            {/* VOS */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  VOS
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                  <Input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleDocumentUpload(file, "vos")
+                    }}
+                    disabled={uploading}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                </div>
+                {uploading && <LoadingSpinner />}
+              </CardContent>
+            </Card>
+
+            {/* Stanovy */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Stanovy
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                  <Input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleDocumentUpload(file, "stanovy")
+                    }}
+                    disabled={uploading}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                </div>
+                {uploading && <LoadingSpinner />}
+              </CardContent>
+            </Card>
+
+            {/* Dotace */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Dotace
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                  <Input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleDocumentUpload(file, "dotace")
+                    }}
+                    disabled={uploading}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                </div>
+                {uploading && <LoadingSpinner />}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {message && (
           <Alert className="mt-6" variant={message.includes("Chyba") ? "destructive" : "default"}>
