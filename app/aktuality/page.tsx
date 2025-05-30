@@ -10,8 +10,8 @@ export default function NewsPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
 
-  // Použijeme přímo blob URL vašeho PDF souboru
-  const pdfUrl = "https://blob.v0.dev/aktuality-nabidka-prace.pdf"
+  // Použijeme API route pro PDF
+  const pdfUrl = "/api/aktuality/get-pdf"
 
   const handlePrint = () => {
     const printWindow = window.open(pdfUrl, "_blank", "width=800,height=600")
