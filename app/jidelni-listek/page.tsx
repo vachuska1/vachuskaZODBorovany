@@ -5,151 +5,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Printer, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Download } from "lucide-react"
-import { Document, Page, pdfjs } from "react-pdf"
-import "react-pdf/dist/Page/AnnotationLayer.css"
-import "react-pdf/dist/Page/TextLayer.css"
-
-// Nastavení PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
-
-interface PDFViewerProps {
-  url: string
-  title: string
-  onPrint: () => void
-}
-
-function PDFViewer({ url, title, onPrint }: PDFViewerProps) {
-  const [numPages, setNumPages] = useState<number>(0)
-  const [pageNumber, setPageNumber] = useState<number>(1)
-  const [scale, setScale] = useState<number>(1.0)
-  const [loading, setLoading] = useState<boolean>(true)
-
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages)
-    setLoading(false)
-  }
-
-  function onDocumentLoadError(error: Error) {
-    console.error("Error loading PDF:", error)
-    setLoading(false)
-  }
-
-  const goToPrevPage = () => setPageNumber((prev) => Math.max(prev - 1, 1))
-  const goToNextPage = () => setPageNumber((prev) => Math.min(prev + 1, numPages))
-  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 2.0))
-  const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5))
-
-  return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-      {/* Header s ovládacími prvky */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-4">
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-xl font-bold">{title}</h2>
-          <div className="flex gap-2">
-            <Button
-              onClick={onPrint}
-              variant="outline"
-              size="sm"
-              className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-            >
-              <Printer className="h-4 w-4 mr-2" />
-              Tisk
-            </Button>
-            <Button
-              onClick={() => window.open(url, "_blank")}
-              variant="outline"
-              size="sm"
-              className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Stáhnout
-            </Button>
-          </div>
-        </div>
-
-        {/* Ovládací panel */}
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={goToPrevPage}
-              disabled={pageNumber <= 1}
-              variant="ghost"
-              size="sm"
-              className="text-white hover:bg-white hover:bg-opacity-20"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm">
-              {pageNumber} / {numPages}
-            </span>
-            <Button
-              onClick={goToNextPage}
-              disabled={pageNumber >= numPages}
-              variant="ghost"
-              size="sm"
-              className="text-white hover:bg-white hover:bg-opacity-20"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={zoomOut}
-              disabled={scale <= 0.5}
-              variant="ghost"
-              size="sm"
-              className="text-white hover:bg-white hover:bg-opacity-20"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            <span className="text-sm">{Math.round(scale * 100)}%</span>
-            <Button
-              onClick={zoomIn}
-              disabled={scale >= 2.0}
-              variant="ghost"
-              size="sm"
-              className="text-white hover:bg-white hover:bg-opacity-20"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* PDF obsah */}
-      <div className="h-[700px] overflow-auto bg-gray-100 flex justify-center items-start p-4">
-        {loading && (
-          <div className="flex items-center justify-center h-full">
-            <LoadingSpinner />
-          </div>
-        )}
-
-        <Document
-          file={url}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          loading={<LoadingSpinner />}
-          className="shadow-lg"
-        >
-          <Page
-            pageNumber={pageNumber}
-            scale={scale}
-            className="border border-gray-300 bg-white"
-            renderTextLayer={true}
-            renderAnnotationLayer={true}
-          />
-        </Document>
-      </div>
-
-      {/* Footer s informacemi */}
-      <div className="bg-gray-50 px-4 py-2 text-center text-sm text-gray-600">
-        Použijte kolečko myši nebo tlačítka pro zoom • Šipky pro navigaci
-      </div>
-    </div>
-  )
-}
+import { Printer } from "lucide-react"
 
 export default function MenuPage() {
   const { t } = useLanguage()
@@ -193,6 +49,11 @@ export default function MenuPage() {
     }
   }
 
+  // Funkce pro vytvoření PDF.js URL
+  const getPdfJsUrl = (pdfUrl: string) => {
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -209,17 +70,58 @@ export default function MenuPage() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <PDFViewer
-              url={pdfUrls.week1}
-              title="Tento týden"
-              onPrint={() => handlePrint(pdfUrls.week1, "Tento týden")}
-            />
-            <PDFViewer
-              url={pdfUrls.week2}
-              title="Příští týden"
-              onPrint={() => handlePrint(pdfUrls.week2, "Příští týden")}
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Tento týden */}
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gray-800 text-white p-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold">Tento týden</h2>
+                  <Button
+                    onClick={() => handlePrint(pdfUrls.week1, "Tento týden")}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    Tisk
+                  </Button>
+                </div>
+              </div>
+              <div className="h-[700px]">
+                <iframe
+                  src={getPdfJsUrl(pdfUrls.week1)}
+                  className="w-full h-full border-0"
+                  title="Jídelní lístek - Tento týden"
+                  onError={() => setError("Chyba při načítání jídelního lístku")}
+                />
+              </div>
+            </div>
+
+            {/* Příští týden */}
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+              <div className="bg-gray-700 text-white p-4">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold">Příští týden</h2>
+                  <Button
+                    onClick={() => handlePrint(pdfUrls.week2, "Příští týden")}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    Tisk
+                  </Button>
+                </div>
+              </div>
+              <div className="h-[700px]">
+                <iframe
+                  src={getPdfJsUrl(pdfUrls.week2)}
+                  className="w-full h-full border-0"
+                  title="Jídelní lístek - Příští týden"
+                  onError={() => setError("Chyba při načítání jídelního lístku")}
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>
