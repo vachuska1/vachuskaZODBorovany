@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { useLanguage } from "./language-provider"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -9,6 +10,7 @@ import { MobileMenu } from "./mobile-menu"
 
 export function Navbar() {
   const { language, setLanguage, t } = useLanguage()
+  const pathname = usePathname()
 
   const flagImages = {
     cs: "/images/flags/czech-republic.png",
@@ -21,6 +23,21 @@ export function Navbar() {
     en: "English",
     de: "Deutsch",
   }
+
+  // Funkce pro určení, zda je odkaz aktivní
+  const isActive = (path: string) => {
+    return pathname === path
+  }
+
+  // Navigační odkazy
+  const navLinks = [
+    { href: "/", label: "home" },
+    { href: "/jidelni-listek", label: "menu" },
+    { href: "/aktuality", label: "news" },
+    { href: "/vos", label: "vos" },
+    { href: "/dokumenty", label: "documents" },
+    { href: "/kontakt", label: "contact" },
+  ]
 
   return (
     <nav className="bg-white shadow-lg border-b">
@@ -48,42 +65,19 @@ export function Navbar() {
           {/* Centered Navigation */}
           <div className="hidden md:block flex-1">
             <div className="flex items-center justify-center space-x-8">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("home")}
-              </Link>
-              <Link
-                href="/jidelni-listek"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("menu")}
-              </Link>
-              <Link
-                href="/aktuality"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("news")}
-              </Link>
-              <Link
-                href="/vos"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("vos")}
-              </Link>
-              <Link
-                href="/dokumenty"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("documents")}
-              </Link>
-              <Link
-                href="/kontakt"
-                className="text-gray-700 hover:text-green-600 px-3 py-2 text-lg font-medium transition-colors"
-              >
-                {t("contact")}
-              </Link>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-2 text-lg font-medium transition-colors relative ${
+                    isActive(link.href)
+                      ? "text-black font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-black"
+                      : "text-gray-700 hover:text-black"
+                  }`}
+                >
+                  {t(link.label)}
+                </Link>
+              ))}
             </div>
           </div>
 

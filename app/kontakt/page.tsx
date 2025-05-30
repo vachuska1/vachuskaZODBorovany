@@ -60,7 +60,7 @@ export default function ContactPage() {
     },
     {
       position: t("viceChairmanBoard"),
-      name: "Ing. Jindřich Korinek",
+      name: "Ing. Jindřich Kořínek",
       phone: "604 204 498",
       email: "korinek@zodborovany.cz",
     },
@@ -84,7 +84,7 @@ export default function ContactPage() {
     },
     {
       position: t("landManagement"),
-      name: "Ing. Aleš Vachuska",
+      name: "Ing. Aleš Vachuška",
       phone: "736 670 520",
       email: "pozemky@zodborovany.cz",
     },

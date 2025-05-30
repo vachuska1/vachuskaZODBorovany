@@ -14,7 +14,7 @@ interface LanguageContextType {
 const translations = {
   cs: {
     home: "Domů",
-    menu: "Jídelní lístky",
+    menu: "Jídelní lístek",
     news: "Aktuality",
     vos: "VOS",
     documents: "Dokumenty",
@@ -72,6 +72,41 @@ const translations = {
     gdprLink: "zpracováním osobních údajů",
     gdprPurpose: "pro účely vyřízení vašeho dotazu.",
     contacts: "KONTAKTY",
+    // Nové překlady
+    modernAgricultural: "Moderní zemědělské družstvo s tradicí",
+    address: "Adresa",
+    dataBox: "Datová schránka",
+    openingHours: "Otevírací doba",
+    weekdays: "Po–Pá",
+    weekend: "So–Ne: zavřeno",
+    allRightsReserved: "Všechna práva vyhrazena",
+    // GDPR stránka
+    backToContacts: "Zpět na kontakty",
+    privacyPolicy: "Zásady ochrany osobních údajů",
+    dataController: "Správce osobních údajů",
+    dataControllerText:
+      "Správcem Vašich osobních údajů je společnost Zemědělské obchodní družstvo Borovany, IČO: 00109207, se sídlem Vodárenská 97, 373 12 Borovany.",
+    processingPurpose: "Účel zpracování osobních údajů",
+    processingPurposeText:
+      "Vaše osobní údaje zpracováváme za účelem vyřízení Vašeho dotazu zaslaného prostřednictvím kontaktního formuláře na našich webových stránkách.",
+    processingPeriod: "Doba zpracování",
+    processingPeriodText:
+      "Osobní údaje zpracováváme po dobu nezbytnou k vyřízení Vašeho dotazu, maximálně však po dobu 1 roku od jeho odeslání, pokud se s námi nedohodneme na delší době.",
+    yourRights: "Vaše práva",
+    yourRightsText: "V souvislosti se zpracováním Vašich osobních údajů máte následující práva:",
+    rightAccess: "Právo na přístup k osobním údajům",
+    rightRectification: "Právo na opravu nepřesných údajů",
+    rightErasure: "Právo na výmaz (být zapomenut)",
+    rightRestriction: "Právo na omezení zpracování",
+    rightPortability: "Právo na přenositelnost údajů",
+    rightObject: "Právo vznést námitku",
+    rightComplaint: "Právo podat stížnost u dozorového úřadu (Úřad pro ochranu osobních údajů)",
+    contactInformation: "Kontaktní údaje",
+    contactInformationText:
+      "V případě dotazů ohledně zpracování Vašich osobních údajů nás můžete kontaktovat na e-mailové adrese:",
+    policyChanges: "Změny v zásadách ochrany osobních údajů",
+    policyChangesText:
+      "Tyto zásady ochrany osobních údajů mohou být aktualizovány. Aktuální verze je vždy zveřejněna na těchto webových stránkách.",
   },
   en: {
     home: "Home",
@@ -133,6 +168,40 @@ const translations = {
     gdprLink: "personal data processing",
     gdprPurpose: "for the purpose of handling your inquiry.",
     contacts: "CONTACTS",
+    // Nové překlady
+    modernAgricultural: "Modern agricultural cooperative with tradition",
+    address: "Address",
+    dataBox: "Data box",
+    openingHours: "Opening hours",
+    weekdays: "Mon–Fri",
+    weekend: "Sat–Sun: closed",
+    allRightsReserved: "All rights reserved",
+    // GDPR stránka
+    backToContacts: "Back to contacts",
+    privacyPolicy: "Privacy Policy",
+    dataController: "Data Controller",
+    dataControllerText:
+      "The data controller of your personal data is Zemědělské obchodní družstvo Borovany, IČO: 00109207, with registered office at Vodárenská 97, 373 12 Borovany.",
+    processingPurpose: "Purpose of Personal Data Processing",
+    processingPurposeText:
+      "We process your personal data for the purpose of handling your inquiry sent through the contact form on our website.",
+    processingPeriod: "Processing Period",
+    processingPeriodText:
+      "We process personal data for the period necessary to handle your inquiry, but for a maximum of 1 year from its submission, unless we agree on a longer period.",
+    yourRights: "Your Rights",
+    yourRightsText: "In connection with the processing of your personal data, you have the following rights:",
+    rightAccess: "Right of access to personal data",
+    rightRectification: "Right to rectification of inaccurate data",
+    rightErasure: "Right to erasure (right to be forgotten)",
+    rightRestriction: "Right to restriction of processing",
+    rightPortability: "Right to data portability",
+    rightObject: "Right to object",
+    rightComplaint: "Right to lodge a complaint with a supervisory authority (Office for Personal Data Protection)",
+    contactInformation: "Contact Information",
+    contactInformationText:
+      "If you have any questions regarding the processing of your personal data, you can contact us at the email address:",
+    policyChanges: "Changes to Privacy Policy",
+    policyChangesText: "This privacy policy may be updated. The current version is always published on this website.",
   },
   de: {
     home: "Startseite",
@@ -194,10 +263,52 @@ const translations = {
     gdprLink: "Verarbeitung personenbezogener Daten",
     gdprPurpose: "zum Zweck der Bearbeitung Ihrer Anfrage zu.",
     contacts: "KONTAKTE",
+    // Nové překlady
+    modernAgricultural: "Moderne landwirtschaftliche Genossenschaft mit Tradition",
+    address: "Adresse",
+    dataBox: "Datenbox",
+    openingHours: "Öffnungszeiten",
+    weekdays: "Mo–Fr",
+    weekend: "Sa–So: geschlossen",
+    allRightsReserved: "Alle Rechte vorbehalten",
+    // GDPR stránka
+    backToContacts: "Zurück zu Kontakten",
+    privacyPolicy: "Datenschutzrichtlinie",
+    dataController: "Datenverantwortlicher",
+    dataControllerText:
+      "Der Datenverantwortliche für Ihre personenbezogenen Daten ist Zemědělské obchodní družstvo Borovany, IČO: 00109207, mit Sitz in Vodárenská 97, 373 12 Borovany.",
+    processingPurpose: "Zweck der Verarbeitung personenbezogener Daten",
+    processingPurposeText:
+      "Wir verarbeiten Ihre personenbezogenen Daten zum Zweck der Bearbeitung Ihrer über das Kontaktformular auf unserer Website gesendeten Anfrage.",
+    processingPeriod: "Verarbeitungsdauer",
+    processingPeriodText:
+      "Wir verarbeiten personenbezogene Daten für die zur Bearbeitung Ihrer Anfrage erforderliche Zeit, jedoch maximal für 1 Jahr ab deren Übermittlung, sofern wir keine längere Zeit vereinbaren.",
+    yourRights: "Ihre Rechte",
+    yourRightsText: "Im Zusammenhang mit der Verarbeitung Ihrer personenbezogenen Daten haben Sie folgende Rechte:",
+    rightAccess: "Recht auf Zugang zu personenbezogenen Daten",
+    rightRectification: "Recht auf Berichtigung unrichtiger Daten",
+    rightErasure: "Recht auf Löschung (Recht auf Vergessenwerden)",
+    rightRestriction: "Recht auf Einschränkung der Verarbeitung",
+    rightPortability: "Recht auf Datenübertragbarkeit",
+    rightObject: "Recht auf Widerspruch",
+    rightComplaint: "Recht auf Beschwerde bei einer Aufsichtsbehörde (Amt für den Schutz personenbezogener Daten)",
+    contactInformation: "Kontaktinformationen",
+    contactInformationText:
+      "Bei Fragen zur Verarbeitung Ihrer personenbezogenen Daten können Sie uns unter der E-Mail-Adresse kontaktieren:",
+    policyChanges: "Änderungen der Datenschutzrichtlinie",
+    policyChangesText:
+      "Diese Datenschutzrichtlinie kann aktualisiert werden. Die aktuelle Version wird immer auf dieser Website veröffentlicht.",
   },
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+// Vytvoření defaultní hodnoty pro kontext
+const defaultContextValue: LanguageContextType = {
+  language: "cs",
+  setLanguage: () => {},
+  t: (key) => key,
+}
+
+const LanguageContext = createContext<LanguageContextType>(defaultContextValue)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("cs")

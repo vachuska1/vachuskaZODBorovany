@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "ZOD Borovany - Zemědělské obchodní družstvo",
   description: "Moderní webové stránky Zemědělského obchodního družstva Borovany",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({

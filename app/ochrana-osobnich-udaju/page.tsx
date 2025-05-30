@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Zpět na kontakty
+            {t("backToContacts")}
           </Link>
         </div>
 
@@ -29,87 +29,76 @@ export default function PrivacyPolicyPage() {
               <Shield className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Zásady ochrany osobních údajů</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("privacyPolicy")}</h1>
         </div>
 
         <div className="space-y-6">
           {/* Data Controller */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">Správce osobních údajů</CardTitle>
+              <CardTitle className="text-xl text-gray-900">{t("dataController")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 leading-relaxed">
-                Správcem Vašich osobních údajů je společnost ZOD Borovany, IČ: 00109207, se{" "}
-                <span className="font-medium">sídlem Vodárenská 97, 373 12 Borovany</span>.
-              </p>
+              <p className="text-gray-700 leading-relaxed">{t("dataControllerText")}</p>
             </CardContent>
           </Card>
 
           {/* Purpose */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">Účel zpracování osobních údajů</CardTitle>
+              <CardTitle className="text-xl text-gray-900">{t("processingPurpose")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 leading-relaxed">
-                Vaše osobní údaje zpracováváme za účelem vyřízení Vašeho dotazu zaslaného prostřednictvím kontaktního
-                formuláře na našich webových stránkách.
-              </p>
+              <p className="text-gray-700 leading-relaxed">{t("processingPurposeText")}</p>
             </CardContent>
           </Card>
 
           {/* Processing Period */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">Doba zpracování</CardTitle>
+              <CardTitle className="text-xl text-gray-900">{t("processingPeriod")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 leading-relaxed">
-                Osobní údaje zpracováváme po dobu nezbytnou k vyřízení Vašeho dotazu, maximálně však po dobu 1 roku od
-                jeho odeslání, pokud se s námi nedohodneme na delší době.
-              </p>
+              <p className="text-gray-700 leading-relaxed">{t("processingPeriodText")}</p>
             </CardContent>
           </Card>
 
           {/* Your Rights */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">Vaše práva</CardTitle>
+              <CardTitle className="text-xl text-gray-900">{t("yourRights")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <p className="text-gray-700 leading-relaxed">
-                  V souvislosti se zpracováním Vašich osobních údajů máte následující práva:
-                </p>
+                <p className="text-gray-700 leading-relaxed">{t("yourRightsText")}</p>
                 <ul className="space-y-2 text-gray-700">
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo na přístup k osobním údajům</span>
+                    <span>{t("rightAccess")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo na opravu nepřesných údajů</span>
+                    <span>{t("rightRectification")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo na výmaz (být zapomenut)</span>
+                    <span>{t("rightErasure")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo na omezení zpracování</span>
+                    <span>{t("rightRestriction")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo na přenositelnost údajů</span>
+                    <span>{t("rightPortability")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo vznést námitku</span>
+                    <span>{t("rightObject")}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
-                    <span>Právo podat stížnost u dozorového úřadu (Úřad pro ochranu osobních údajů)</span>
+                    <span>{t("rightComplaint")}</span>
                   </li>
                 </ul>
               </div>
@@ -121,12 +110,12 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="text-xl text-gray-900 flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                Kontaktní údaje
+                {t("contactInformation")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-700 leading-relaxed">
-                V případě dotazů ohledně zpracování Vašich osobních údajů nás můžete kontaktovat na e-mailové adrese:{" "}
+                {t("contactInformationText")}{" "}
                 <a
                   href="mailto:info@zodborovany.cz"
                   className="text-blue-600 hover:text-blue-800 font-medium underline"
@@ -140,20 +129,12 @@ export default function PrivacyPolicyPage() {
           {/* Changes to Privacy Policy */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">Změny v zásadách ochrany osobních údajů</CardTitle>
+              <CardTitle className="text-xl text-gray-900">{t("policyChanges")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 leading-relaxed">
-                Tyto zásady ochrany osobních údajů mohou být aktualizovány. Aktuální verze je vždy zveřejněna na těchto
-                webových stránkách.
-              </p>
+              <p className="text-gray-700 leading-relaxed">{t("policyChangesText")}</p>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500">Poslední aktualizace: {new Date().toLocaleDateString("cs-CZ")}</p>
         </div>
       </div>
     </div>

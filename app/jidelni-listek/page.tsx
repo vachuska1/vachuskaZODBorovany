@@ -75,15 +75,15 @@ export default function MenuPage() {
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gray-800 text-white p-4">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">Tento týden</h2>
+                  <h2 className="text-xl font-bold">{t("thisWeek")}</h2>
                   <Button
-                    onClick={() => handlePrint(pdfUrls.week1, "Tento týden")}
+                    onClick={() => handlePrint(pdfUrls.week1, t("thisWeek"))}
                     variant="outline"
                     size="sm"
                     className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
                   >
                     <Printer className="h-4 w-4 mr-2" />
-                    Tisk
+                    {t("print")}
                   </Button>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function MenuPage() {
                 <iframe
                   src={getPdfJsUrl(pdfUrls.week1)}
                   className="w-full h-full border-0"
-                  title="Jídelní lístek - Tento týden"
+                  title={`${t("menu")} - ${t("thisWeek")}`}
                   onError={() => setError("Chyba při načítání jídelního lístku")}
                 />
               </div>
@@ -101,15 +101,15 @@ export default function MenuPage() {
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gray-700 text-white p-4">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">Příští týden</h2>
+                  <h2 className="text-xl font-bold">{t("nextWeek")}</h2>
                   <Button
-                    onClick={() => handlePrint(pdfUrls.week2, "Příští týden")}
+                    onClick={() => handlePrint(pdfUrls.week2, t("nextWeek"))}
                     variant="outline"
                     size="sm"
                     className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
                   >
                     <Printer className="h-4 w-4 mr-2" />
-                    Tisk
+                    {t("print")}
                   </Button>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function MenuPage() {
                 <iframe
                   src={getPdfJsUrl(pdfUrls.week2)}
                   className="w-full h-full border-0"
-                  title="Jídelní lístek - Příští týden"
+                  title={`${t("menu")} - ${t("nextWeek")}`}
                   onError={() => setError("Chyba při načítání jídelního lístku")}
                 />
               </div>

@@ -71,7 +71,7 @@ export default function HomePage() {
 
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Zemědělské obchodní družstvo Borovany</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto">Moderní zemědělské družstvo s tradicí</p>
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto">{t("modernAgricultural")}</p>
         </div>
       </section>
 
@@ -88,7 +88,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="space-y-4">
                 <div>
-                  <span className="font-semibold text-gray-800">Adresa:</span>
+                  <span className="font-semibold text-gray-800">{t("address")}:</span>
                   <span className="ml-2 text-gray-600">Vodárenská 97, 373 12 Borovany</span>
                 </div>
                 <div>
@@ -111,7 +111,7 @@ export default function HomePage() {
                   <span className="ml-2 text-gray-600">info@zodborovany.cz</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-800">Datová schránka:</span>
+                  <span className="font-semibold text-gray-800">{t("dataBox")}:</span>
                   <span className="ml-2 text-gray-600">r5tcx53</span>
                 </div>
               </div>
@@ -120,8 +120,10 @@ export default function HomePage() {
             {/* Opening Hours */}
             <div className="text-center border-t border-gray-200 pt-6">
               <div>
-                <span className="font-semibold text-gray-800">Otevírací doba:</span>
-                <span className="ml-2 text-gray-600">Po–Pá: 7:00–15:30, So–Ne: zavřeno</span>
+                <span className="font-semibold text-gray-800">{t("openingHours")}:</span>
+                <span className="ml-2 text-gray-600">
+                  {t("weekdays")}: 7:00–15:30, {t("weekend")}
+                </span>
               </div>
             </div>
 
@@ -129,7 +131,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <Link href="/jidelni-listek">
                 <Button className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-white px-8 py-3">
-                  Jídelní lístek
+                  {t("menu")}
                 </Button>
               </Link>
               <Link href="/kontakt">
@@ -137,7 +139,7 @@ export default function HomePage() {
                   variant="outline"
                   className="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3"
                 >
-                  Kontakt
+                  {t("contact")}
                 </Button>
               </Link>
             </div>

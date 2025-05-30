@@ -55,8 +55,21 @@ export function Footer() {
               <p>Zemědělské obchodní družstvo Borovany</p>
               <p>Vodárenská 97</p>
               <p>373 12 Borovany</p>
-              <p>Email: info@zodborovany.cz</p>
-              <p>Tel: 387 023 511</p>
+              <p>
+                Email:{" "}
+                <a
+                  href="mailto:info@zodborovany.cz"
+                  className="text-blue-400 hover:text-blue-300 transition-colors underline"
+                >
+                  info@zodborovany.cz
+                </a>
+              </p>
+              <p>
+                Tel:{" "}
+                <a href="tel:387023511" className="text-blue-400 hover:text-blue-300 transition-colors underline">
+                  387 023 511
+                </a>
+              </p>
             </div>
           </div>
 
@@ -78,7 +91,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
-          <p>&copy; 2025 Zemědělské obchodní družstvo Borovany. Všechna práva vyhrazena.</p>
+          <p>&copy; 2025 Zemědělské obchodní družstvo Borovany. {t("allRightsReserved")}</p>
         </div>
       </div>
     </footer>
