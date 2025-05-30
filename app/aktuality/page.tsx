@@ -10,8 +10,8 @@ export default function NewsPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
 
-  // Statické PDF URL - váš inzerát na práci
-  const pdfUrl = "/pdfs/aktuality-nabidka-prace.pdf"
+  // Použijeme přímo blob URL vašeho PDF souboru
+  const pdfUrl = "https://blob.v0.dev/aktuality-nabidka-prace.pdf"
 
   const handlePrint = () => {
     const printWindow = window.open(pdfUrl, "_blank", "width=800,height=600")
@@ -24,7 +24,7 @@ export default function NewsPage() {
     }
   }
 
-  // Funkce pro vytvoření PDF.js URL
+  // Funkce pro vytvoření PDF.js URL - STEJNĚ JAKO U JÍDELNÍCH LÍSTKŮ
   const getPdfJsUrl = (pdfUrl: string) => {
     return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
   }
@@ -42,7 +42,7 @@ export default function NewsPage() {
           </Alert>
         ) : (
           <div className="max-w-4xl mx-auto">
-            {/* Nabídka práce */}
+            {/* Nabídka práce - STEJNÝ STYL JAKO JÍDELNÍ LÍSTKY */}
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gray-800 text-white p-4">
                 <div className="flex justify-between items-center">
