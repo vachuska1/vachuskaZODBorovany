@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Printer } from "lucide-react"
@@ -9,11 +9,6 @@ import { Printer } from "lucide-react"
 export default function VOSPage() {
   const { t } = useLanguage()
   const [error, setError] = useState("")
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const pdfUrl = "/api/pdfs/vos"
 
@@ -30,34 +25,7 @@ export default function VOSPage() {
 
   // Funkce pro vytvoření PDF.js URL - STEJNĚ JAKO U JÍDELNÍCH LÍSTKŮ
   const getPdfJsUrl = (pdfUrl: string) => {
-    if (!mounted) return ""
-    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(window.location.origin + pdfUrl)}`
-  }
-
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">{t("internalReporting")}</h1>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gray-800 text-white p-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">
-                    {t("vos")} - {t("internalReporting")}
-                  </h2>
-                </div>
-              </div>
-              <div className="h-[800px] flex items-center justify-center">
-                <div className="text-gray-500">Načítání...</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
   }
 
   return (
