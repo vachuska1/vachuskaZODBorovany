@@ -39,7 +39,6 @@ export default function MenuPage() {
   }, [])
 
   const handlePrint = (weekUrl: string, weekTitle: string) => {
-    // Otevře URL přímo v novém okně pro lepší tisk
     const printWindow = window.open(weekUrl, "_blank", "width=800,height=600")
     if (printWindow) {
       printWindow.onload = () => {
@@ -48,6 +47,11 @@ export default function MenuPage() {
         }, 1000)
       }
     }
+  }
+
+  // Funkce pro vytvoření PDF.js URL
+  const getPdfJsUrl = (pdfUrl: string) => {
+    return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
   }
 
   return (
@@ -88,14 +92,14 @@ export default function MenuPage() {
                       size="sm"
                       className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
                     >
-                      📱 Zobrazit PDF
+                      📱 Otevřít PDF
                     </Button>
                   </div>
                 </div>
               </div>
               <div className="h-[700px]">
                 <iframe
-                  src={`${pdfUrls.week1}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                  src={getPdfJsUrl(pdfUrls.week1)}
                   className="w-full h-full border-0"
                   title="Jídelní lístek - Tento týden"
                   onError={() => setError("Chyba při načítání jídelního lístku")}
@@ -124,14 +128,14 @@ export default function MenuPage() {
                       size="sm"
                       className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
                     >
-                      📱 Zobrazit PDF
+                      📱 Otevřít PDF
                     </Button>
                   </div>
                 </div>
               </div>
               <div className="h-[700px]">
                 <iframe
-                  src={`${pdfUrls.week2}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                  src={getPdfJsUrl(pdfUrls.week2)}
                   className="w-full h-full border-0"
                   title="Jídelní lístek - Příští týden"
                   onError={() => setError("Chyba při načítání jídelního lístku")}
