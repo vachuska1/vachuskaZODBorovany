@@ -14,15 +14,43 @@ export default function HomePage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const galleryImages = [
-    { src: "/images/gallery/1.jpg", alt: "ZOD Borovany - Zemědělská technika 1" },
-    { src: "/images/gallery/2.jpg", alt: "ZOD Borovany - Zemědělská technika 2" },
-    { src: "/images/gallery/3.jpg", alt: "ZOD Borovany - Zemědělská technika 3" },
-    { src: "/images/gallery/4.jpg", alt: "ZOD Borovany - Zemědělská technika 4" },
-    { src: "/images/gallery/5.jpg", alt: "ZOD Borovany - Zemědělská technika 5" },
-    { src: "/images/gallery/6.jpg", alt: "ZOD Borovany - Zemědělská technika 6" },
-    { src: "/images/gallery/7.jpg", alt: "ZOD Borovany - Zemědělská technika 7" },
-    { src: "/images/gallery/8.jpg", alt: "ZOD Borovany - Zemědělská technika 8" },
+  const farmAreas = [
+    {
+      name: "Areál Borovany",
+      images: [
+        { src: "/images/gallery/Areál Borovany.png", alt: "Areál Borovany" },
+      ]
+    },
+    {
+      name: "Areál Hluboká u Borovan",
+      images: [
+        { src: "/images/gallery/Areál Hluboká u Borovan.png", alt: "Areál Hluboká u Borovan" },
+      ]
+    },
+    {
+      name: "Areál Mladošovice",
+      images: [
+        { src: "/images/gallery/Areál Mladošovice.png", alt: "Areál Mladošovice" },
+      ]
+    },
+    {
+      name: "Areál Radostice",
+      images: [
+        { src: "/images/gallery/Areál Radostice.png", alt: "Areál Radostice" },
+      ]
+    },
+    {
+      name: "Areál Šalmanovice",
+      images: [
+        { src: "/images/gallery/Areál Šalmanovice.png", alt: "Areál Šalmanovice" },
+      ]
+    },
+    {
+      name: "Areál Třebeč",
+      images: [
+        { src: "/images/gallery/Areál Třebeč.png", alt: "Areál Třebeč" },
+      ]
+    }
   ]
 
   const openLightbox = (index: number) => {
@@ -34,12 +62,21 @@ export default function HomePage() {
     setLightboxOpen(false)
   }
 
+  // Flatten all images from all farm areas for the lightbox
+  const allImages = farmAreas.flatMap(area => area.images)
+  
+  // Group images into rows of 3
+  const rows = [];
+  for (let i = 0; i < allImages.length; i += 3) {
+    rows.push(allImages.slice(i, i + 3));
+  }
+
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length)
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length)
   }
 
   const previousImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)
   }
 
   const goToImage = (index: number) => {
@@ -80,7 +117,7 @@ export default function HomePage() {
           <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200">
             {/* Logo - Increased by 50% */}
             <div className="text-center mb-8">
-              <Image src="/images/logo.png" alt="ZOD Borovany Logo" width={400} height={200} className="mx-auto" />
+              <Image src="/images/logo.jpg" alt="ZOD Borovany Logo" width={400} height={200} className="mx-auto" />
             </div>
 
             {/* Company Details */}
@@ -91,11 +128,11 @@ export default function HomePage() {
                   <span className="ml-2 text-gray-600">Vodárenská 97, 373 12 Borovany</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-800">IČO:</span>
+                  <span className="font-semibold text-gray-800">{t("idNumber")}:</span>
                   <span className="ml-2 text-gray-600">00109207</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-800">DIČ:</span>
+                  <span className="font-semibold text-gray-800">{t("vatId")}:</span>
                   <span className="ml-2 text-gray-600">CZ00109207</span>
                 </div>
               </div>
@@ -164,11 +201,11 @@ export default function HomePage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 w-[98%] mx-auto">
                 <h3 className="text-xl font-bold text-center mb-4">{t("plantProduction")}</h3>
-                <div className="text-gray-600 space-y-4">
-                  <p>{t("plantProductionText1")}</p>
-                  <p>{t("plantProductionText2")}</p>
+                <div className="text-gray-600 space-y-4 text-justify">
+                  <p className="whitespace-normal">{t("plantProductionText1")}</p>
+                  <p className="whitespace-normal">{t("plantProductionText2")}</p>
                 </div>
               </div>
             </div>
@@ -184,11 +221,11 @@ export default function HomePage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 w-[98%] mx-auto">
                 <h3 className="text-xl font-bold text-center mb-4">{t("animalProduction")}</h3>
-                <div className="text-gray-600 space-y-4">
-                  <p>{t("animalProductionText1")}</p>
-                  <p>{t("animalProductionText2")}</p>
+                <div className="text-gray-600 space-y-4 text-justify">
+                  <p className="whitespace-normal">{t("animalProductionText1")}</p>
+                  <p className="whitespace-normal">{t("animalProductionText2")}</p>
                 </div>
               </div>
             </div>
@@ -204,11 +241,11 @@ export default function HomePage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 w-[98%] mx-auto">
                 <h3 className="text-xl font-bold text-center mb-4">{t("companyCanteen")}</h3>
-                <div className="text-gray-600 space-y-4">
-                  <p>{t("companyCanteenText1")}</p>
-                  <p>{t("companyCanteenText2")}</p>
+                <div className="text-gray-600 space-y-4 text-justify">
+                  <p className="whitespace-normal">{t("companyCanteenText1")}</p>
+                  <p className="whitespace-normal">{t("companyCanteenText2")}</p>
                 </div>
               </div>
             </div>
@@ -219,21 +256,23 @@ export default function HomePage() {
       {/* Gallery Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">{t("gallery")}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {galleryImages.map((image, index) => (
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">{t("farmAreas")}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {allImages.map((image, index) => (
               <div
                 key={index}
-                className="aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer group"
+                className="group overflow-hidden rounded-lg shadow-md cursor-pointer"
                 onClick={() => openLightbox(index)}
               >
-                <Image
-                  src={image.src || "/placeholder.svg"}
-                  alt={image.alt}
-                  width={300}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
+                <div className="aspect-video">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -242,7 +281,7 @@ export default function HomePage() {
 
       {/* Lightbox Gallery */}
       <LightboxGallery
-        images={galleryImages}
+        images={allImages}
         isOpen={lightboxOpen}
         currentIndex={currentImageIndex}
         onClose={closeLightbox}

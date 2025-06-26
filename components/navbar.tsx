@@ -53,7 +53,7 @@ export function Navbar() {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.jpg"
                 alt="ZOD Borovany Logo"
                 width={160}
                 height={80}

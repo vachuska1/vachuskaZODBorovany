@@ -74,45 +74,22 @@ export function LightboxGallery({ images, isOpen, currentIndex, onClose, onNext,
       </Button>
 
       {/* Main image */}
-      <div className="relative max-w-4xl max-h-full w-full h-full flex items-center justify-center">
-        <Image
-          src={currentImage.src || "/placeholder.svg"}
-          alt={currentImage.alt}
-          width={1200}
-          height={800}
-          className="max-w-full max-h-full object-contain"
-          priority
-        />
-      </div>
-
-      {/* Image counter */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded">
-        {currentIndex + 1} / {images.length}
-      </div>
-
-      {/* Thumbnail navigation */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex space-x-2 max-w-full overflow-x-auto px-4">
-        {images.map((image, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              // We'll need to pass this function from parent
-              const event = new CustomEvent("lightbox-goto", { detail: index })
-              window.dispatchEvent(event)
-            }}
-            className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden ${
-              index === currentIndex ? "border-white" : "border-transparent opacity-70 hover:opacity-100"
-            }`}
-          >
-            <Image
-              src={image.src || "/placeholder.svg"}
-              alt={image.alt}
-              width={64}
-              height={64}
-              className="w-full h-full object-cover"
-            />
-          </button>
-        ))}
+      <div className="relative max-w-4xl max-h-full w-full h-full flex flex-col items-center justify-center">
+        <div className="relative w-full h-full flex items-center justify-center">
+          <Image
+            src={currentImage.src || "/placeholder.svg"}
+            alt={currentImage.alt}
+            width={1200}
+            height={800}
+            className="max-w-full max-h-[80vh] object-contain"
+            priority
+          />
+        </div>
+        
+        {/* Image counter - moved to top */}
+        <div className="mt-4 text-white bg-black bg-opacity-50 px-3 py-1 rounded">
+          {currentIndex + 1} / {images.length}
+        </div>
       </div>
     </div>
   )
