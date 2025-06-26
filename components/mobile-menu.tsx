@@ -20,10 +20,11 @@ export function MobileMenu() {
 
   const menuItems = [
     { href: "/", label: "home" },
-    { href: "/jidelni-listek", label: "menu" },
     { href: "/aktuality", label: "news" },
+    { href: "/jidelni-listek", label: "menu" },
     { href: "/vos", label: "vos" },
-    { href: "/dokumenty", label: "documents" },
+    { href: "/stanovy", label: "statutes" },
+    { href: "/dotacni-tituly", label: "grants" },
     { href: "/kontakt", label: "contact" },
   ]
 

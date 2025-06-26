@@ -56,7 +56,7 @@ export default function MenuPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">{t("menu")}</h1>
         </div>
@@ -70,56 +70,58 @@ export default function MenuPage() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Tento týden */}
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gray-800 text-white p-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">{t("thisWeek")}</h2>
-                  <Button
-                    onClick={() => handlePrint(pdfUrls.week1, t("thisWeek"))}
-                    variant="outline"
-                    size="sm"
-                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                  >
-                    <Printer className="h-4 w-4 mr-2" />
-                    {t("print")}
-                  </Button>
+          <div className="w-full lg:w-[90%] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Tento týden */}
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                <div className="bg-gray-800 text-white p-4">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-bold">{t("thisWeek")}</h2>
+                    <Button
+                      onClick={() => handlePrint(pdfUrls.week1, t("thisWeek"))}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    >
+                      <Printer className="h-4 w-4 mr-2" />
+                      {t("print")}
+                    </Button>
+                  </div>
+                </div>
+                <div className="h-[700px] w-full">
+                  <iframe
+                    src={getPdfJsUrl(pdfUrls.week1)}
+                    className="w-full h-full border-0"
+                    title={`${t("menu")} - ${t("thisWeek")}`}
+                    onError={() => setError("Chyba při načítání jídelního lístku")}
+                  />
                 </div>
               </div>
-              <div className="h-[700px]">
-                <iframe
-                  src={getPdfJsUrl(pdfUrls.week1)}
-                  className="w-full h-full border-0"
-                  title={`${t("menu")} - ${t("thisWeek")}`}
-                  onError={() => setError("Chyba při načítání jídelního lístku")}
-                />
-              </div>
-            </div>
 
-            {/* Příští týden */}
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-              <div className="bg-gray-700 text-white p-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">{t("nextWeek")}</h2>
-                  <Button
-                    onClick={() => handlePrint(pdfUrls.week2, t("nextWeek"))}
-                    variant="outline"
-                    size="sm"
-                    className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                  >
-                    <Printer className="h-4 w-4 mr-2" />
-                    {t("print")}
-                  </Button>
+              {/* Příští týden */}
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                <div className="bg-gray-700 text-white p-4">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-bold">{t("nextWeek")}</h2>
+                    <Button
+                      onClick={() => handlePrint(pdfUrls.week2, t("nextWeek"))}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                    >
+                      <Printer className="h-4 w-4 mr-2" />
+                      {t("print")}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="h-[700px]">
-                <iframe
-                  src={getPdfJsUrl(pdfUrls.week2)}
-                  className="w-full h-full border-0"
-                  title={`${t("menu")} - ${t("nextWeek")}`}
-                  onError={() => setError("Chyba při načítání jídelního lístku")}
-                />
+                <div className="h-[700px] w-full">
+                  <iframe
+                    src={getPdfJsUrl(pdfUrls.week2)}
+                    className="w-full h-full border-0"
+                    title={`${t("menu")} - ${t("nextWeek")}`}
+                    onError={() => setError("Chyba při načítání jídelního lístku")}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
 import { LightboxGallery } from "@/components/lightbox-gallery"
 import { Wheat, Milk, ChefHat } from "lucide-react"
+import { ImageCarousel } from "@/components/image-carousel"
 
 export default function HomePage() {
   const { t } = useLanguage()
@@ -56,22 +57,20 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/zod-main.jpg"
-            alt="ZOD Borovany - Zemědělské družstvo"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      {/* Hero Section with Carousel */}
+      <section className="relative">
+        <div className="relative">
+          <ImageCarousel />
         </div>
 
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Zemědělské obchodní družstvo Borovany</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto">{t("modernAgricultural")}</p>
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="text-center px-4">
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
+              <span className="text-white [text-shadow:0_0_2px_#000,0_0_2px_#000,0_0_2px_#000]">
+                {t("modernAgricultural")}
+              </span>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -155,44 +154,62 @@ export default function HomePage() {
           {/* Responsive grid: 1 column on mobile, 2 columns on medium, 3 columns on large+ */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {/* Plant Production */}
-            <div className="bg-white p-8 rounded-lg shadow-md border border-gray-100">
-              <div className="flex justify-center mb-6">
-                <div className="p-4 rounded-full bg-gray-100">
-                  <Wheat className="h-10 w-10 text-gray-700" />
-                </div>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="w-full h-48 overflow-hidden">
+                <Image
+                  src="/images/main/rostlinna.jpg"
+                  alt={t("plantProduction")}
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-bold text-center mb-4">{t("plantProduction")}</h3>
-              <div className="text-gray-600 space-y-4">
-                <p>{t("plantProductionText1")}</p>
-                <p>{t("plantProductionText2")}</p>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-center mb-4">{t("plantProduction")}</h3>
+                <div className="text-gray-600 space-y-4">
+                  <p>{t("plantProductionText1")}</p>
+                  <p>{t("plantProductionText2")}</p>
+                </div>
               </div>
             </div>
 
             {/* Animal Production */}
-            <div className="bg-white p-8 rounded-lg shadow-md border border-gray-100">
-              <div className="flex justify-center mb-6">
-                <div className="p-4 rounded-full bg-gray-100">
-                  <Milk className="h-10 w-10 text-gray-700" />
-                </div>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="w-full h-48 overflow-hidden">
+                <Image
+                  src="/images/main/zivocisna.jpg"
+                  alt={t("animalProduction")}
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-bold text-center mb-4">{t("animalProduction")}</h3>
-              <div className="text-gray-600 space-y-4">
-                <p>{t("animalProductionText1")}</p>
-                <p>{t("animalProductionText2")}</p>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-center mb-4">{t("animalProduction")}</h3>
+                <div className="text-gray-600 space-y-4">
+                  <p>{t("animalProductionText1")}</p>
+                  <p>{t("animalProductionText2")}</p>
+                </div>
               </div>
             </div>
 
-            {/* Company Canteen - This will be in the third column on xl+, or wrap to new row on md */}
-            <div className="bg-white p-8 rounded-lg shadow-md border border-gray-100 md:col-span-2 xl:col-span-1">
-              <div className="flex justify-center mb-6">
-                <div className="p-4 rounded-full bg-gray-100">
-                  <ChefHat className="h-10 w-10 text-gray-700" />
-                </div>
+            {/* Company Canteen */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden md:col-span-2 xl:col-span-1">
+              <div className="w-full h-48 overflow-hidden">
+                <Image
+                  src="/images/main/food.jpg"
+                  alt={t("companyCanteen")}
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-bold text-center mb-4">{t("companyCanteen")}</h3>
-              <div className="text-gray-600 space-y-4">
-                <p>{t("companyCanteenText1")}</p>
-                <p>{t("companyCanteenText2")}</p>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-center mb-4">{t("companyCanteen")}</h3>
+                <div className="text-gray-600 space-y-4">
+                  <p>{t("companyCanteenText1")}</p>
+                  <p>{t("companyCanteenText2")}</p>
+                </div>
               </div>
             </div>
           </div>
