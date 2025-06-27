@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
     // Configure Vercel Blob with the correct token
     const blob = await put(fileName, file, {
       access: "public",
-      contentType: "application/pdf",
-      token: process.env.NEW_BLOB_READ_WRITE_TOKEN
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
+      contentType: "application/pdf"
     })
 
     // Save the URL to Redis
