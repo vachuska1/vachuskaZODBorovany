@@ -40,7 +40,7 @@ export default function VOSPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">{t("internalReporting")}</h1>
         </div>
@@ -50,7 +50,7 @@ export default function VOSPage() {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : (
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
               <div className="bg-gray-800 text-white p-4">
                 <div className="flex justify-between items-center">
@@ -68,7 +68,7 @@ export default function VOSPage() {
                   </Button>
                 </div>
               </div>
-              <div className="h-[800px]">
+              <div className="h-[calc(100vh-200px)]">
                 <iframe
                   src={getPdfJsUrl(pdfUrl)}
                   className="w-full h-full border-0"
