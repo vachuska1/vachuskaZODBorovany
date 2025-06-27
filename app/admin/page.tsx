@@ -21,6 +21,8 @@ export default function AdminPage() {
   const [currentNews, setCurrentNews] = useState({
     pdf1Url: "",
     pdf2Url: "",
+    pdf3Url: "",
+    pdf4Url: "",
   })
   const [loading, setLoading] = useState(false)
 
@@ -47,6 +49,8 @@ export default function AdminPage() {
       setCurrentNews({
         pdf1Url: newsData.pdf1Url || "",
         pdf2Url: newsData.pdf2Url || "",
+        pdf3Url: newsData.pdf3Url || "",
+        pdf4Url: newsData.pdf4Url || "",
       })
     } catch (error) {
       console.error("Error loading data:", error)
@@ -57,7 +61,7 @@ export default function AdminPage() {
   }
 
   const handleLogin = () => {
-    if (password === "iveta") {
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       setMessage("")
     } else {
@@ -142,7 +146,7 @@ export default function AdminPage() {
     }
   }
 
-  const handleNewsUpload = async (file: File, pdfNumber: 1 | 2) => {
+  const handleNewsUpload = async (file: File, pdfNumber: 1 | 2 | 3 | 4) => {
     setUploading(true)
     setMessage("")
 
@@ -171,6 +175,49 @@ export default function AdminPage() {
     } catch (error) {
       console.error("Upload error:", error)
       setMessage(error instanceof Error ? error.message : "Chyba při nahrávání souboru")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDeleteNews = async (pdfNumber: 1 | 2 | 3 | 4) => {
+    if (!window.confirm(`Opravdu chcete smazat aktuální PDF pro Aktualitu ${pdfNumber}?`)) {
+      return
+    }
+
+    setUploading(true)
+    setMessage("")
+
+    try {
+      const response = await fetch("/api/admin/delete-aktualita", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pdfNumber: pdfNumber.toString() }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage(`Aktualita ${pdfNumber} byla úspěšně smazána`)
+        // Force a refresh of the PDF list
+        const response = await fetch("/api/aktuality/pdf-url")
+        if (response.ok) {
+          const data = await response.json()
+          setCurrentNews({
+            pdf1Url: data.pdf1Url || "",
+            pdf2Url: data.pdf2Url || "",
+            pdf3Url: data.pdf3Url || "",
+            pdf4Url: data.pdf4Url || ""
+          })
+        }
+      } else {
+        throw new Error(data.error || "Chyba při mazání souboru")
+      }
+    } catch (error) {
+      console.error("Delete error:", error)
+      setMessage(error instanceof Error ? error.message : "Chyba při mazání souboru")
     } finally {
       setUploading(false)
     }
@@ -330,10 +377,10 @@ export default function AdminPage() {
         {/* Aktuality */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-center mb-8">📰 Správa aktualit</h2>
-          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro aktuality (max. 2)</p>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro aktuality (max. 4)</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {([1, 2] as const).map((pdfNumber) => (
+            {([1, 2, 3, 4] as const).map((pdfNumber) => (
               <Card key={pdfNumber}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -361,17 +408,29 @@ export default function AdminPage() {
                 <CardFooter className="flex flex-col items-start space-y-2">
                   <p className="text-sm font-medium text-gray-700">Aktuální stav:</p>
                   {currentNews[`pdf${pdfNumber}Url` as keyof typeof currentNews] ? (
-                    <div className="flex items-center gap-2 text-sm text-green-600">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      PDF soubor je nahrán
-                      <a
-                        href={currentNews[`pdf${pdfNumber}Url` as keyof typeof currentNews]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline ml-2"
-                      >
-                        Zobrazit
-                      </a>
+                    <div className="w-full">
+                      <div className="flex items-center gap-2 text-sm text-green-600">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        PDF soubor je nahrán
+                        <a
+                          href={currentNews[`pdf${pdfNumber}Url` as keyof typeof currentNews]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline ml-2 mr-2"
+                        >
+                          Zobrazit
+                        </a>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handleDeleteNews(pdfNumber)
+                          }}
+                          className="text-red-600 hover:underline text-sm"
+                          disabled={uploading}
+                        >
+                          Smazat
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 text-sm text-gray-500">

@@ -86,6 +86,8 @@ const translations = {
     allRightsReserved: "Všechna práva vyhrazena",
     aktualita1: "Aktualita 1",
     aktualita2: "Aktualita 2",
+    aktualita3: "Aktualita 3",
+    aktualita4: "Aktualita 4",
     // GDPR stránka
     backToContacts: "Zpět na kontakty",
     privacyPolicy: "Zásady ochrany osobních údajů",
@@ -187,6 +189,8 @@ const translations = {
     allRightsReserved: "All rights reserved",
     aktualita1: "News 1",
     aktualita2: "News 2",
+    aktualita3: "News 3",
+    aktualita4: "News 4",
     // GDPR stránka
     backToContacts: "Back to contacts",
     privacyPolicy: "Privacy Policy",
@@ -288,6 +292,8 @@ const translations = {
     allRightsReserved: "Alle Rechte vorbehalten",
     aktualita1: "Aktuell 1",
     aktualita2: "Aktuell 2",
+    aktualita3: "Aktuell 3",
+    aktualita4: "Aktuell 4",
     // GDPR stránka
     backToContacts: "Zurück zu Kontakten",
     privacyPolicy: "Datenschutzrichtlinie",

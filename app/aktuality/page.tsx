@@ -9,6 +9,8 @@ import { Printer, Upload } from "lucide-react"
 type PdfUrls = {
   pdf1Url: string
   pdf2Url: string
+  pdf3Url: string
+  pdf4Url: string
 }
 
 const DEFAULT_PDF1 = "https://jtfdkynq6zcyxa4w.public.blob.vercel-storage.com/aktuality/nabidka-prace-NImbj0lqHTFBgcRWIxg8mpw5jO32rI.pdf"
@@ -21,7 +23,9 @@ export default function NewsPage() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [pdfs, setPdfs] = useState<PdfUrls>({
     pdf1Url: '',
-    pdf2Url: ''
+    pdf2Url: '',
+    pdf3Url: '',
+    pdf4Url: ''
   })
 
   useEffect(() => {
@@ -36,20 +40,21 @@ export default function NewsPage() {
       if (!response.ok) throw new Error('Failed to fetch PDFs')
       const data = await response.json()
       
-      // Only update if we have valid URLs
-      const updatedPdfs = {
-        pdf1Url: data.pdf1Url || DEFAULT_PDF1,
-        pdf2Url: data.pdf2Url || DEFAULT_PDF2
-      }
-      
-      setPdfs(updatedPdfs)
+      // Only set the URLs that exist in the response
+      setPdfs({
+        pdf1Url: data.pdf1Url || '',
+        pdf2Url: data.pdf2Url || '',
+        pdf3Url: data.pdf3Url || '',
+        pdf4Url: data.pdf4Url || ''
+      })
       setError("")
     } catch (err) {
       console.error("Error loading PDFs:", err)
-      // Fallback to default PDFs if there's an error
       setPdfs({
-        pdf1Url: DEFAULT_PDF1,
-        pdf2Url: DEFAULT_PDF2
+        pdf1Url: '',
+        pdf2Url: '',
+        pdf3Url: '',
+        pdf4Url: ''
       })
       setError("Nepodařilo se načíst dokumenty")
     } finally {
@@ -68,7 +73,7 @@ export default function NewsPage() {
     }
   }
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, pdfNumber: 1 | 2) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, pdfNumber: 1 | 2 | 3 | 4) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -106,10 +111,10 @@ export default function NewsPage() {
     return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
   }
 
-  // Don't show loading state if we have default PDFs
-  const showLoading = isLoading && !pdfs.pdf1Url && !pdfs.pdf2Url
+  // Check if we have any PDFs to show (non-empty strings)
+  const hasPdfs = !!(pdfs.pdf1Url || pdfs.pdf2Url || pdfs.pdf3Url || pdfs.pdf4Url)
 
-  if (showLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -121,24 +126,17 @@ export default function NewsPage() {
     )
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">{t("news")}</h1>
-          </div>
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+
 
   // Get translated title for the PDF
   const getTranslatedTitle = (number: number) => {
-    return number === 1 ? t('aktualita1') : t('aktualita2')
+    switch(number) {
+      case 1: return t('aktualita1')
+      case 2: return t('aktualita2')
+      case 3: return t('aktualita3') || `Aktualita 3`
+      case 4: return t('aktualita4') || `Aktualita 4`
+      default: return `Aktualita ${number}`
+    }
   }
 
   return (
@@ -154,47 +152,54 @@ export default function NewsPage() {
           </Alert>
         )}
 
-        <div className="w-full lg:w-[90%] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {([1, 2] as const).map((pdfNumber) => {
-            const pdfUrl = pdfs[`pdf${pdfNumber}Url` as keyof PdfUrls] || ''
-            const pdfName = getTranslatedTitle(pdfNumber)
-            const isDefaultPdf = pdfUrl === (pdfNumber === 1 ? DEFAULT_PDF1 : DEFAULT_PDF2)
-
-            return (
+        {!hasPdfs ? (
+          <div className="text-center py-12 w-full">
+            <p className="text-gray-500 text-lg">Momentálně nejsou k dispozici žádné aktuality.</p>
+          </div>
+        ) : (
+          <div className="w-full lg:w-[90%] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {([1, 2, 3, 4] as const).map((pdfNumber) => {
+              const pdfUrl = pdfs[`pdf${pdfNumber}Url` as keyof PdfUrls] || ''
+              if (!pdfUrl) return null
+              const pdfName = getTranslatedTitle(pdfNumber)
+              
+              return (
               <div key={pdfNumber} className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
                 <div className="bg-gray-800 text-white p-4">
                   <div className="flex justify-between items-center">
                     <h2 className="text-xl font-bold">{pdfName}</h2>
-                    <Button
-                      onClick={() => handlePrint(pdfUrl)}
-                      variant="outline"
-                      size="sm"
-                      className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
-                      disabled={!pdfUrl || isDefaultPdf}
-                      title={isDefaultPdf ? "Nelze tisknout výchozí PDF" : "Tisknout"}
-                    >
-                      <Printer className="h-4 w-4 mr-2" />
-                      Tisknout
-                    </Button>
-                    {isAdmin && (
-                      <>
-                        <input
-                          type="file"
-                          id={`file-upload-${pdfNumber}`}
-                          accept=".pdf"
-                          className="hidden"
-                          onChange={(e) => handleFileUpload(e, pdfNumber)}
-                        />
-                        <label
-                          htmlFor={`file-upload-${pdfNumber}`}
-                          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-8 w-8 p-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                          title="Nahrát nový dokument"
-                        >
-                          <Upload className="h-4 w-4" />
-                        </label>
-                      </>
-                    )}
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => handlePrint(pdfUrl)}
+                        variant="outline"
+                        size="sm"
+                        className="bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
+                        disabled={!pdfUrl}
+                        title={t('print')}
+                      >
+                        <Printer className="h-4 w-4 mr-2" />
+                        {t('print')}
+                      </Button>
+                      {isAdmin && (
+                        <>
+                          <input
+                            type="file"
+                            id={`file-upload-${pdfNumber}`}
+                            accept=".pdf"
+                            className="hidden"
+                            onChange={(e) => handleFileUpload(e, pdfNumber)}
+                          />
+                          <label
+                            htmlFor={`file-upload-${pdfNumber}`}
+                            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-8 w-8 p-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                            title="Nahrát nový dokument"
+                          >
+                            <Upload className="h-4 w-4" />
+                          </label>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="h-[700px] w-full bg-gray-50 flex items-center justify-center">
@@ -213,8 +218,9 @@ export default function NewsPage() {
               </div>
             )
           })}
-        </div>
-      </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

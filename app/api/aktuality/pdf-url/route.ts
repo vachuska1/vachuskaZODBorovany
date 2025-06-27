@@ -6,20 +6,30 @@ const redis = new Redis({
   token: process.env.STORAGE_KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
 })
 
-// Default PDFs
-const DEFAULT_PDF1 = "https://jtfdkynq6zcyxa4w.public.blob.vercel-storage.com/aktuality/nabidka-prace-NImbj0lqHTFBgcRWIxg8mpw5jO32rI.pdf"
-const DEFAULT_PDF2 = "https://jtfdkynq6zcyxa4w.public.blob.vercel-storage.com/aktuality/nabidka-prace-xQViBb7351H95KQirQ1bJX7mxGqDBT.pdf"
-
 export async function GET() {
   try {
-    // Get both PDF URLs from Redis
-    const pdf1Url = await redis.get<string>("aktuality:pdf1")
-    const pdf2Url = await redis.get<string>("aktuality:pdf2")
+    // Get all PDF URLs from Redis
+    const [pdf1Url, pdf2Url, pdf3Url, pdf4Url] = await Promise.all([
+      redis.get<string>("aktuality:pdf1"),
+      redis.get<string>("aktuality:pdf2"),
+      redis.get<string>("aktuality:pdf3"),
+      redis.get<string>("aktuality:pdf4")
+    ])
 
-    return NextResponse.json({
-      pdf1Url: pdf1Url || DEFAULT_PDF1,
-      pdf2Url: pdf2Url || DEFAULT_PDF2
-    })
+    // Only return URLs that exist in Redis
+    const response: { 
+      pdf1Url?: string, 
+      pdf2Url?: string,
+      pdf3Url?: string,
+      pdf4Url?: string 
+    } = {}
+    
+    if (pdf1Url) response.pdf1Url = pdf1Url
+    if (pdf2Url) response.pdf2Url = pdf2Url
+    if (pdf3Url) response.pdf3Url = pdf3Url
+    if (pdf4Url) response.pdf4Url = pdf4Url
+
+    return NextResponse.json(response)
   } catch (error) {
     console.error("Error getting aktuality PDFs:", error)
     return NextResponse.json(
