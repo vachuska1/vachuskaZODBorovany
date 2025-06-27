@@ -1,110 +1,85 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { put } from "@vercel/blob"
+import { Redis } from "@upstash/redis"
+
+// Check for required environment variables
+const requiredEnvVars = [
+  'STORAGE_KV_REST_API_URL',
+  'STORAGE_KV_REST_API_TOKEN',
+  'NEW_BLOB_READ_WRITE_TOKEN'
+]
+
+const missingEnvVars = requiredEnvVars.filter(env => !process.env[env])
+
+if (missingEnvVars.length > 0 && process.env.NODE_ENV === 'development') {
+  console.warn(`Missing required environment variables: ${missingEnvVars.join(', ')}`)
+}
+
+const redis = new Redis({
+  url: process.env.STORAGE_KV_REST_API_URL,
+  token: process.env.STORAGE_KV_REST_API_TOKEN,
+})
 
 export async function POST(request: NextRequest) {
   try {
-    // Vytvoříme statický PDF pro aktuality
-    const pdfContent = `%PDF-1.4
-1 0 obj
-<<
-/Type /Catalog
-/Pages 2 0 R
->>
-endobj
+    const formData = await request.formData()
+    const file = formData.get("file") as File
+    const pdfNumber = formData.get("pdfNumber") as string
 
-2 0 obj
-<<
-/Type /Pages
-/Kids [3 0 R]
-/Count 1
->>
-endobj
+    if (!file || !pdfNumber) {
+      return NextResponse.json(
+        { error: "Chybí soubor nebo číslo PDF" },
+        { status: 400 }
+      )
+    }
 
-3 0 obj
-<<
-/Type /Page
-/Parent 2 0 R
-/MediaBox [0 0 612 792]
-/Contents 4 0 R
-/Resources <<
-/Font <<
-/F1 5 0 R
->>
->>
->>
-endobj
+    if (pdfNumber !== "1" && pdfNumber !== "2") {
+      return NextResponse.json(
+        { error: "Neplatné číslo PDF. Musí být 1 nebo 2" },
+        { status: 400 }
+      )
+    }
 
-4 0 obj
-<<
-/Length 200
->>
-stream
-BT
-/F1 24 Tf
-100 700 Td
-(ZOD BOROVANY) Tj
-0 -50 Td
-/F1 18 Tf
-(Přijmeme ošetřovatele/ku dojnic) Tj
-0 -40 Td
-/F1 12 Tf
-(• požadujeme zájem o práci v živočišné výrobě) Tj
-0 -20 Td
-(• nástup možný ihned) Tj
-0 -20 Td
-(• měsíční mzda 32 000 – 38 000 Kč) Tj
-0 -20 Td
-(• roční prémie) Tj
-0 -20 Td
-(• dotované závodní stravování) Tj
-0 -40 Td
-(Kontakt: Ing. Ondřej Kubala) Tj
-0 -20 Td
-(tel.: 778 474 530) Tj
-0 -20 Td
-(email: info@zodborovany.cz) Tj
-ET
-endstream
-endobj
+    // Upload the file to Vercel Blob
+    const timestamp = new Date().getTime()
+    const fileName = `aktuality/aktualita-${pdfNumber}-${timestamp}.pdf`
 
-5 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/BaseFont /Helvetica
->>
-endobj
-
-xref
-0 6
-0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000274 00000 n 
-0000000526 00000 n 
-trailer
-<<
-/Size 6
-/Root 1 0 R
->>
-startxref
-623
-%%EOF`
-
-    // Nahrajeme PDF do Vercel Blob
-    const blob = await put("aktuality/nabidka-prace.pdf", pdfContent, {
+    // Configure Vercel Blob with the correct token
+    const blob = await put(fileName, file, {
       access: "public",
-      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
       contentType: "application/pdf",
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN
     })
+
+    // Save the URL to Redis
+    await redis.set(`aktuality:pdf${pdfNumber}`, blob.url)
 
     return NextResponse.json({
       success: true,
+      message: `Aktualita ${pdfNumber} byla úspěšně nahrána`,
       url: blob.url,
     })
   } catch (error) {
     console.error("Upload error:", error)
-    return NextResponse.json({ error: "Chyba při vytváření PDF" }, { status: 500 })
+    
+    // More detailed error messages
+    let errorMessage = "Chyba při nahrávání souboru"
+    if (error instanceof Error) {
+      if (error.message.includes('BLOB_READ_WRITE_TOKEN')) {
+        errorMessage = "Chyba konfigurace: Chybí BLOB_READ_WRITE_TOKEN"
+      } else if (error.message.includes('UNAUTHORIZED')) {
+        errorMessage = "Neoprávněný přístup: Neplatný token pro úložiště"
+      } else if (error.message.includes('NetworkError')) {
+        errorMessage = "Chyba sítě: Nepodařilo se připojit k úložišti"
+      }
+    }
+    
+    return NextResponse.json(
+      { 
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error instanceof Error ? error.message : String(error) : undefined
+      },
+      { status: 500 }
+    )
   }
 }

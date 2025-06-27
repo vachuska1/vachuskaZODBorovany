@@ -18,6 +18,10 @@ export default function AdminPage() {
     week1Url: "",
     week2Url: "",
   })
+  const [currentNews, setCurrentNews] = useState({
+    pdf1Url: "",
+    pdf2Url: "",
+  })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -26,21 +30,30 @@ export default function AdminPage() {
     }
   }, [isAuthenticated])
 
-  const loadCurrentMenus = () => {
+  const loadCurrentMenus = async () => {
     setLoading(true)
-    fetch("/api/menu/update")
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentMenus({
-          week1Url: data.week1Url || "",
-          week2Url: data.week2Url || "",
-        })
+    try {
+      // Load menus
+      const menusResponse = await fetch("/api/menu/update")
+      const menusData = await menusResponse.json()
+      setCurrentMenus({
+        week1Url: menusData.week1Url || "",
+        week2Url: menusData.week2Url || "",
       })
-      .catch((error) => {
-        console.error("Error fetching menus:", error)
-        setMessage("Chyba při načítání aktuálních jídelních lístků")
+
+      // Load news PDFs
+      const newsResponse = await fetch("/api/aktuality/pdf-url")
+      const newsData = await newsResponse.json()
+      setCurrentNews({
+        pdf1Url: newsData.pdf1Url || "",
+        pdf2Url: newsData.pdf2Url || "",
       })
-      .finally(() => setLoading(false))
+    } catch (error) {
+      console.error("Error loading data:", error)
+      setMessage("Chyba při načítání dat")
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogin = () => {
@@ -124,6 +137,40 @@ export default function AdminPage() {
     } catch (error) {
       console.error("Upload error:", error)
       setMessage("Chyba při nahrávání souboru")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleNewsUpload = async (file: File, pdfNumber: 1 | 2) => {
+    setUploading(true)
+    setMessage("")
+
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("pdfNumber", pdfNumber.toString())
+
+    try {
+      const response = await fetch("/api/admin/upload-aktuality", {
+        method: "POST",
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage(`Aktualita ${pdfNumber} byla úspěšně nahrána`)
+        // Update the current news state
+        setCurrentNews(prev => ({
+          ...prev,
+          [`pdf${pdfNumber}Url`]: data.url
+        }))
+      } else {
+        throw new Error(data.error || "Chyba při nahrávání souboru")
+      }
+    } catch (error) {
+      console.error("Upload error:", error)
+      setMessage(error instanceof Error ? error.message : "Chyba při nahrávání souboru")
     } finally {
       setUploading(false)
     }
@@ -280,38 +327,70 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* Aktuality */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center mb-8">📰 Správa aktualit</h2>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro aktuality (max. 2)</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {([1, 2] as const).map((pdfNumber) => (
+              <Card key={pdfNumber}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Aktualita {pdfNumber}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                    <Input
+                      type="file"
+                      accept=".pdf"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleNewsUpload(file, pdfNumber)
+                      }}
+                      disabled={uploading}
+                      className="cursor-pointer"
+                    />
+                    <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                  </div>
+                  {uploading && <LoadingSpinner />}
+                </CardContent>
+                <CardFooter className="flex flex-col items-start space-y-2">
+                  <p className="text-sm font-medium text-gray-700">Aktuální stav:</p>
+                  {currentNews[`pdf${pdfNumber}Url` as keyof typeof currentNews] ? (
+                    <div className="flex items-center gap-2 text-sm text-green-600">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      PDF soubor je nahrán
+                      <a
+                        href={currentNews[`pdf${pdfNumber}Url` as keyof typeof currentNews]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline ml-2"
+                      >
+                        Zobrazit
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                      Žádný PDF soubor není nahrán
+                    </div>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         {/* Ostatní dokumenty */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-center mb-8">📄 Ostatní dokumenty</h2>
-          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro aktuality, VOS a dokumenty</p>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro VOS a dokumenty</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Aktuality */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Aktuality
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
-                  <Input
-                    type="file"
-                    accept=".pdf"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      if (file) handleDocumentUpload(file, "aktuality")
-                    }}
-                    disabled={uploading}
-                    className="cursor-pointer"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
-                </div>
-                {uploading && <LoadingSpinner />}
-              </CardContent>
-            </Card>
 
             {/* VOS */}
             <Card>

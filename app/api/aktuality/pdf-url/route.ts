@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import { Redis } from "@upstash/redis"
 
 const redis = new Redis({
@@ -6,35 +6,25 @@ const redis = new Redis({
   token: process.env.STORAGE_KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
 })
 
+// Default PDFs
+const DEFAULT_PDF1 = "https://jtfdkynq6zcyxa4w.public.blob.vercel-storage.com/aktuality/nabidka-prace-NImbj0lqHTFBgcRWIxg8mpw5jO32rI.pdf"
+const DEFAULT_PDF2 = "https://jtfdkynq6zcyxa4w.public.blob.vercel-storage.com/aktuality/nabidka-prace-xQViBb7351H95KQirQ1bJX7mxGqDBT.pdf"
+
 export async function GET() {
   try {
-    // Zkusíme získat URL z Redis
-    let pdfUrl = await redis.get<string>("aktuality:pdf-url")
-
-    if (!pdfUrl) {
-      // Pokud neexistuje, vytvoříme nový PDF
-      const uploadResponse = await fetch("/api/admin/upload-aktuality", {
-        method: "POST",
-      })
-
-      if (uploadResponse.ok) {
-        const data = await uploadResponse.json()
-        pdfUrl = data.url
-        // Uložíme do Redis
-        await redis.set("aktuality:pdf-url", pdfUrl)
-      } else {
-        // Fallback na API route
-        pdfUrl = "/api/pdfs/aktuality"
-      }
-    }
+    // Get both PDF URLs from Redis
+    const pdf1Url = await redis.get<string>("aktuality:pdf1")
+    const pdf2Url = await redis.get<string>("aktuality:pdf2")
 
     return NextResponse.json({
-      pdfUrl: pdfUrl || "/api/pdfs/aktuality",
+      pdf1Url: pdf1Url || DEFAULT_PDF1,
+      pdf2Url: pdf2Url || DEFAULT_PDF2
     })
   } catch (error) {
-    console.error("Get aktuality PDF error:", error)
-    return NextResponse.json({
-      pdfUrl: "/api/pdfs/aktuality",
-    })
+    console.error("Error getting aktuality PDFs:", error)
+    return NextResponse.json(
+      { error: "Chyba při načítání aktualit" },
+      { status: 500 }
+    )
   }
 }

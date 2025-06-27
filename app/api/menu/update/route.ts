@@ -3,8 +3,8 @@ import { Redis } from "@upstash/redis"
 
 // Vytvoření Redis klienta s vašimi credentials
 const redis = new Redis({
-  url: process.env.STORAGE_KV_REST_API_URL || "https://romantic-hound-16277.upstash.io",
-  token: process.env.STORAGE_KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
+  url: process.env.KV_REST_API_URL || "https://romantic-hound-16277.upstash.io",
+  token: process.env.KV_REST_API_TOKEN || "AT-VAAIjcDFmMWYxNGY3MWU2NmY0OTVlODMyMTc4ZWZjOWFkMGVmY3AxMA",
 })
 
 export async function POST(request: NextRequest) {
