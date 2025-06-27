@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
 
     const blob = await put(fileName, file, {
       access: "public",
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
     })
 
     // Store the URL in Redis

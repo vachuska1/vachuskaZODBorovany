@@ -95,6 +95,7 @@ startxref
     // Nahrajeme PDF do Vercel Blob
     const blob = await put("aktuality/nabidka-prace.pdf", pdfContent, {
       access: "public",
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
       contentType: "application/pdf",
     })
 

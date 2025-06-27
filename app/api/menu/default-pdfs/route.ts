@@ -17,13 +17,15 @@ export async function GET() {
 
     // Store the HTML content as files in Vercel Blob
     const week1Blob = await put(`menu/default-week1.html`, week1Html, {
-      access: "public",
-      contentType: "text/html",
+      access: 'public',
+      contentType: 'text/html',
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
     })
 
     const week2Blob = await put(`menu/default-week2.html`, week2Html, {
-      access: "public",
-      contentType: "text/html",
+      access: 'public',
+      contentType: 'text/html',
+      token: process.env.NEW_BLOB_READ_WRITE_TOKEN,
     })
 
     // Update the menu URLs
