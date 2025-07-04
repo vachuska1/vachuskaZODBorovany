@@ -49,9 +49,9 @@ const translations = {
     animalProductionText2:
       "Ve čtyřech odchovnách realizujeme výkrm kuřat. V areálu Borovany provozujeme malou porážku drůbeže, díky které můžeme zájemcům nabídnout kuchaná chlazená kuřata přímo od chovatele.",
     companyCanteenText1:
-      "Provozujeme závodní kuchyni, která slouží jak zaměstnancům, tak široké veřejnosti. Zaměřujeme se na tradiční českou kuchyni. Cena oběda je 115,- Kč včetně polévky.",
+      "Provozujeme závodní kuchyni, která slouží jak zaměstnancům, tak široké veřejnosti. Zaměřujeme se na tradiční českou kuchyni. <strong>Cena oběda je 115,- Kč včetně polévky.</strong> Oběd je možné konzumovat v závodní jídelně či si ho ve vlastních nádobách odnést s sebou.",
     companyCanteenText2:
-      "Oběd je možné konzumovat v závodní jídelně či si ho ve vlastních nádobách odnést s sebou. V závodní kuchyni také vyrábíme houskové knedlíky, které dodáváme do místních restaurací. Cena 1 ks knedlíku o hmotnosti 600g je 40,- Kč.",
+      "V závodní kuchyni také vyrábíme houskové knedlíky, které dodáváme do místních restaurací. <strong>Cena 1 ks knedlíku o hmotnosti 600g je 40,- Kč.</strong>",
     followUs: "Sledujte nás",
     chairmanBoard: "Předseda představenstva",
     viceChairmanBoard: "Místopředseda představenstva",
@@ -84,6 +84,7 @@ const translations = {
     weekdays: "Po–Pá",
     weekend: "So–Ne: zavřeno",
     allRightsReserved: "Všechna práva vyhrazena",
+    mainNavigation: "Hlavní navigace",
     aktualita1: "Aktualita 1",
     aktualita2: "Aktualita 2",
     aktualita3: "Aktualita 3",
@@ -156,15 +157,15 @@ const translations = {
     animalProductionText2:
       "We carry out chicken fattening in four rearing facilities. In the Borovany area, we operate a small poultry slaughterhouse, thanks to which we can offer interested parties dressed chicken directly from the breeder.",
     companyCanteenText1:
-      "We operate a company canteen that serves both employees and the general public. We focus on traditional Czech cuisine. The price of lunch is 115 CZK including soup.",
+      "We operate a company canteen that serves both employees and the general public. We focus on traditional Czech cuisine. <strong>The price of lunch is 115 CZK including soup.</strong> Lunch can be eaten in the canteen or taken away in your own containers.",
     companyCanteenText2:
-      "Lunch can be consumed in the company canteen or taken away in your own containers. In the company kitchen, we also produce bread dumplings, which we supply to local restaurants. The price of 1 piece of dumpling weighing 600g is 40 CZK.",
+      "In the company kitchen, we also produce bread dumplings, which we supply to local restaurants. <strong>The price of 1 piece of dumpling weighing 600g is 40 CZK.</strong>",
     followUs: "Follow Us",
     chairmanBoard: "Chairman of the Board",
     viceChairmanBoard: "Vice Chairman of the Board",
     economist: "Economist",
     chiefZootechnician: "Animal Production Manager",
-    chiefMechanizer: "Chief Mechanizer",
+    chiefMechanizer: "Chief Mechanist",
     landManagement: "Land Manager",
     kitchenManager: "Head Chef",
     writeToUs: "Write to Us",
@@ -187,6 +188,7 @@ const translations = {
     weekdays: "Mon–Fri",
     weekend: "Sat–Sun: closed",
     allRightsReserved: "All rights reserved",
+    mainNavigation: "Main Navigation",
     aktualita1: "News 1",
     aktualita2: "News 2",
     aktualita3: "News 3",
@@ -258,13 +260,13 @@ const translations = {
     animalProductionText2:
       "Wir führen Hühnermast in vier Aufzuchtbetrieben durch. Im Bereich Borovany betreiben wir eine kleine Geflügelschlachterei, dank der wir Interessenten ausgenommenes Huhn direkt vom Züchter anbieten können.",
     companyCanteenText1:
-      "Wir betreiben eine Betriebskantine, die sowohl Mitarbeitern als auch der Öffentlichkeit dient. Wir konzentrieren uns auf traditionelle tschechische Küche. Der Preis für das Mittagessen beträgt 115 CZK inklusive Suppe.",
+      "Wir betreiben eine Betriebskantine, die sowohl den Mitarbeitern als auch der breiten Öffentlichkeit dient. Wir konzentrieren uns auf die traditionelle tschechische Küche. <strong>Der Preis für das Mittagessen beträgt 115 CZK inklusive Suppe.</strong> Das Mittagessen kann in der Kantine eingenommen oder in eigenen Behältern mitgenommen werden.",
     companyCanteenText2:
-      "Das Mittagessen kann in der Betriebskantine verzehrt oder in eigenen Behältern mitgenommen werden. In der Betriebsküche produzieren wir auch Semmelknödel, die wir an örtliche Restaurants liefern. Der Preis für 1 Stück Knödel mit einem Gewicht von 600g beträgt 40 CZK.",
+      "In der Betriebsküche produzieren wir auch Semmelknödel, die wir an örtliche Restaurants liefern. <strong>Der Preis für 1 Stück Knödel mit einem Gewicht von 600 g beträgt 40 CZK.</strong>",
     followUs: "Folgen Sie uns",
     chairmanBoard: "Vorstandsvorsitzender",
     viceChairmanBoard: "Stellvertretender Vorstandsvorsitzender",
-    economist: "Wirtschaftswissenschaftlerin",
+    economist: "Ökonom",
     chiefZootechnician: "Leiter der Tierproduktion",
     chiefMechanizer: "Hauptmechaniker",
     landManagement: "Flächenmanagement",
@@ -290,7 +292,8 @@ const translations = {
     weekdays: "Mo–Fr",
     weekend: "Sa–So: geschlossen",
     allRightsReserved: "Alle Rechte vorbehalten",
-    aktualita1: "Aktuell 1",
+    mainNavigation: "Hauptnavigation",
+    aktualita1: "Neuigkeit 1",
     aktualita2: "Aktuell 2",
     aktualita3: "Aktuell 3",
     aktualita4: "Aktuell 4",

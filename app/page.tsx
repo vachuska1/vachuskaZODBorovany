@@ -244,8 +244,14 @@ export default function HomePage() {
               <div className="p-6 w-[98%] mx-auto">
                 <h3 className="text-xl font-bold text-center mb-4">{t("companyCanteen")}</h3>
                 <div className="text-gray-600 space-y-4 text-justify">
-                  <p className="whitespace-normal">{t("companyCanteenText1")}</p>
-                  <p className="whitespace-normal">{t("companyCanteenText2")}</p>
+                  <p 
+                    className="whitespace-normal" 
+                    dangerouslySetInnerHTML={{ __html: t("companyCanteenText1") }} 
+                  />
+                  <p 
+                    className="whitespace-normal" 
+                    dangerouslySetInnerHTML={{ __html: t("companyCanteenText2") }} 
+                  />
                 </div>
               </div>
             </div>
