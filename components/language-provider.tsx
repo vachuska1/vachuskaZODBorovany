@@ -93,6 +93,8 @@ const translations = {
     grantTitle2: "Dotační titul 2",
     grantTitle3: "Dotační titul 3",
     grantTitle4: "Dotační titul 4",
+    grantTitle5: "Dotační titul 5",
+    grantTitle6: "Dotační titul 6",
     // GDPR stránka
     backToContacts: "Zpět na kontakty",
     privacyPolicy: "Zásady ochrany osobních údajů",
@@ -201,6 +203,8 @@ const translations = {
     grantTitle2: "Grant title 2",
     grantTitle3: "Grant title 3",
     grantTitle4: "Grant title 4",
+    grantTitle5: "Grant title 5",
+    grantTitle6: "Grant title 6",
     // GDPR stránka
     backToContacts: "Back to contacts",
     privacyPolicy: "Privacy Policy",
@@ -309,6 +313,8 @@ const translations = {
     grantTitle2: "Agrarförderungen 2",
     grantTitle3: "Agrarförderungen 3",
     grantTitle4: "Agrarförderungen 4",
+    grantTitle5: "Agrarförderungen 5",
+    grantTitle6: "Agrarförderungen 6",
     // GDPR stránka
     backToContacts: "Zurück zu Kontakten",
     privacyPolicy: "Datenschutzrichtlinie",
