@@ -35,9 +35,9 @@ export function Navbar() {
     { href: "/", label: "home" },
     { href: "/aktuality", label: "news" },
     { href: "/jidelni-listek", label: "menu" },
-    { href: "/vos", label: "vos" },
-    { href: "/stanovy", label: "statutes" },
     { href: "/dotacni-tituly", label: "grants" },
+    { href: "/stanovy", label: "statutes" },
+    { href: "/vos", label: "vos" },
     { href: "/kontakt", label: "contact" },
   ]
 

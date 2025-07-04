@@ -31,8 +31,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/vos" className="hover:text-green-400 transition-colors">
-                  {t("vos")}
+                <Link href="/dotacni-tituly" className="hover:text-green-400 transition-colors">
+                  {t("grants")}
                 </Link>
               </li>
               <li>
@@ -41,8 +41,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/dotacni-tituly" className="hover:text-green-400 transition-colors">
-                  {t("grants")}
+                <Link href="/vos" className="hover:text-green-400 transition-colors">
+                  {t("vos")}
                 </Link>
               </li>
               <li>

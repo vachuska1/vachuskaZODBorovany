@@ -29,6 +29,8 @@ export default function AdminPage() {
     pdf2Url: "",
     pdf3Url: "",
     pdf4Url: "",
+    pdf5Url: "",
+    pdf6Url: "",
   })
   const [loading, setLoading] = useState(false)
 
@@ -70,6 +72,8 @@ export default function AdminPage() {
         pdf2Url: grantsData.pdf2Url || "",
         pdf3Url: grantsData.pdf3Url || "",
         pdf4Url: grantsData.pdf4Url || "",
+        pdf5Url: grantsData.pdf5Url || "",
+        pdf6Url: grantsData.pdf6Url || "",
       })
     } catch (error) {
       console.error("Error loading data:", error)
@@ -242,7 +246,7 @@ export default function AdminPage() {
     }
   }
 
-  const handleGrantsUpload = async (file: File, pdfNumber: 1 | 2 | 3 | 4) => {
+  const handleGrantsUpload = async (file: File, pdfNumber: 1 | 2 | 3 | 4 | 5 | 6) => {
     setUploading(true)
     setMessage("")
 
@@ -276,7 +280,7 @@ export default function AdminPage() {
     }
   }
 
-  const handleDeleteGrants = async (pdfNumber: 1 | 2 | 3 | 4) => {
+  const handleDeleteGrants = async (pdfNumber: 1 | 2 | 3 | 4 | 5 | 6) => {
     if (!window.confirm(`Opravdu chcete smazat aktuální PDF pro Dotační titul ${pdfNumber}?`)) {
       return
     }
@@ -462,10 +466,10 @@ export default function AdminPage() {
         {/* Dotační tituly */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-center mb-8">🏛️ Správa dotačních titulů</h2>
-          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro dotační tituly (max. 4)</p>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro dotační tituly (max. 6)</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1, 2, 3, 4].map((num) => (
+            {([1, 2, 3, 4, 5, 6] as const).map((num) => (
               <Card key={`grant-${num}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -481,7 +485,7 @@ export default function AdminPage() {
                       accept=".pdf"
                       onChange={(e) => {
                         const file = e.target.files?.[0]
-                        if (file) handleGrantsUpload(file, num as 1 | 2 | 3 | 4)
+                        if (file) handleGrantsUpload(file, num)
                       }}
                       disabled={uploading}
                       className="cursor-pointer"
@@ -508,7 +512,7 @@ export default function AdminPage() {
                         <button
                           onClick={(e) => {
                             e.preventDefault()
-                            handleDeleteGrants(num as 1 | 2 | 3 | 4)
+                            handleDeleteGrants(num as 1 | 2 | 3 | 4 | 5 | 6)
                           }}
                           className="text-red-600 hover:underline text-sm"
                           disabled={uploading}

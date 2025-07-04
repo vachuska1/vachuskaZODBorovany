@@ -33,9 +33,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!["1", "2", "3", "4"].includes(pdfNumber)) {
+    if (!["1", "2", "3", "4", "5", "6"].includes(pdfNumber)) {
       return NextResponse.json(
-        { error: "Neplatné číslo PDF. Musí být 1, 2, 3 nebo 4" },
+        { error: "Neplatné číslo PDF. Musí být 1, 2, 3, 4, 5 nebo 6" },
         { status: 400 }
       )
     }

@@ -11,10 +11,14 @@ type PdfUrls = {
   pdf2Url: string
   pdf3Url: string
   pdf4Url: string
+  pdf5Url: string
+  pdf6Url: string
   pdf1Name: string
   pdf2Name: string
   pdf3Name: string
   pdf4Name: string
+  pdf5Name: string
+  pdf6Name: string
 }
 
 export default function GrantsPage() {
@@ -27,10 +31,14 @@ export default function GrantsPage() {
     pdf2Url: '',
     pdf3Url: '',
     pdf4Url: '',
-    pdf1Name: 'Dotační titul 1',
-    pdf2Name: 'Dotační titul 2',
-    pdf3Name: 'Dotační titul 3',
-    pdf4Name: 'Dotační titul 4'
+    pdf5Url: '',
+    pdf6Url: '',
+    pdf1Name: t('grantTitle1') || 'Dotační titul 1',
+    pdf2Name: t('grantTitle2') || 'Dotační titul 2',
+    pdf3Name: t('grantTitle3') || 'Dotační titul 3',
+    pdf4Name: t('grantTitle4') || 'Dotační titul 4',
+    pdf5Name: t('grantTitle5') || 'Dotační titul 5',
+    pdf6Name: t('grantTitle6') || 'Dotační titul 6'
   })
 
   useEffect(() => {
@@ -52,10 +60,14 @@ export default function GrantsPage() {
         pdf2Url: data.pdf2Url || '',
         pdf3Url: data.pdf3Url || '',
         pdf4Url: data.pdf4Url || '',
-        pdf1Name: data.pdf1Name || 'Dotační titul 1',
-        pdf2Name: data.pdf2Name || 'Dotační titul 2',
-        pdf3Name: data.pdf3Name || 'Dotační titul 3',
-        pdf4Name: data.pdf4Name || 'Dotační titul 4'
+        pdf5Url: data.pdf5Url || '',
+        pdf6Url: data.pdf6Url || '',
+        pdf1Name: data.pdf1Name || t('grantTitle1') || 'Dotační titul 1',
+        pdf2Name: data.pdf2Name || t('grantTitle2') || 'Dotační titul 2',
+        pdf3Name: data.pdf3Name || t('grantTitle3') || 'Dotační titul 3',
+        pdf4Name: data.pdf4Name || t('grantTitle4') || 'Dotační titul 4',
+        pdf5Name: data.pdf5Name || t('grantTitle5') || 'Dotační titul 5',
+        pdf6Name: data.pdf6Name || t('grantTitle6') || 'Dotační titul 6'
       }))
       setError("")
     } catch (err) {
@@ -77,7 +89,7 @@ export default function GrantsPage() {
     }
   }
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, pdfNumber: 1 | 2 | 3 | 4) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, pdfNumber: 1 | 2 | 3 | 4 | 5 | 6) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -112,7 +124,7 @@ export default function GrantsPage() {
     }
   }
 
-  const handleDelete = async (pdfNumber: 1 | 2 | 3 | 4) => {
+  const handleDeletePdf = async (pdfNumber: 1 | 2 | 3 | 4 | 5 | 6) => {
     if (!confirm('Opravdu chcete smazat tento dotační titul?')) return
     
     try {
@@ -125,7 +137,7 @@ export default function GrantsPage() {
         setPdfs(prev => ({
           ...prev,
           [`pdf${pdfNumber}Url`]: '',
-          [`pdf${pdfNumber}Name`]: t(`grantTitle${pdfNumber}`)
+          [`pdf${pdfNumber}Name`]: t(`grantTitle${pdfNumber}`) || `Dotační titul ${pdfNumber}`
         }))
       } else {
         const error = await response.json()
@@ -141,7 +153,7 @@ export default function GrantsPage() {
     return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
   }
 
-  const renderPdfCard = (pdfNumber: 1 | 2 | 3 | 4) => {
+  const renderPdfCard = (pdfNumber: 1 | 2 | 3 | 4 | 5 | 6) => {
     const pdfUrl = pdfs[`pdf${pdfNumber}Url` as keyof PdfUrls] as string
     const pdfName = t(`grantTitle${pdfNumber}`) || pdfs[`pdf${pdfNumber}Name` as keyof PdfUrls] as string
     const fileName = pdfUrl ? pdfUrl.split('/').pop()?.split('?')[0] || 'Soubor' : ''
@@ -210,8 +222,8 @@ export default function GrantsPage() {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => handleDelete(pdfNumber)}
-                  className="w-full sm:w-auto justify-center"
+                  className="w-full mt-2"
+                  onClick={() => handleDeletePdf(pdfNumber)}
                 >
                   Smazat
                 </Button>
@@ -239,8 +251,8 @@ export default function GrantsPage() {
   }
 
   // Get only the PDFs that have been uploaded
-  const uploadedPdfNumbers = ([1, 2, 3, 4] as const).filter(
-    (num) => pdfs[`pdf${num}Url` as keyof PdfUrls]
+  const uploadedPdfNumbers = ([1, 2, 3, 4, 5, 6] as const).filter(
+    (num) => pdfs[`pdf${num}Url` as keyof PdfUrls]?.trim() !== ''
   )
 
   // Split PDFs into pairs for 2-column layout
