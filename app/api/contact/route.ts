@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     await resend.emails.send({
       from: "onboarding@resend.dev", // Toto je jediná adresa, která funguje bez vlastní domény
-      to: "aless.vachuska@seznam.cz",
+      to: "info@zodborovany.cz",
       subject: `Nová zpráva z webu ZOD Borovany od ${name}`,
       replyTo: email, // Tady nastavíme email odesílatele pro odpověď
       html: `

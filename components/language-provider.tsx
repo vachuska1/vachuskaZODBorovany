@@ -89,6 +89,10 @@ const translations = {
     aktualita2: "Aktualita 2",
     aktualita3: "Aktualita 3",
     aktualita4: "Aktualita 4",
+    grantTitle1: "Dotační titul 1",
+    grantTitle2: "Dotační titul 2",
+    grantTitle3: "Dotační titul 3",
+    grantTitle4: "Dotační titul 4",
     // GDPR stránka
     backToContacts: "Zpět na kontakty",
     privacyPolicy: "Zásady ochrany osobních údajů",
@@ -193,6 +197,10 @@ const translations = {
     aktualita2: "News 2",
     aktualita3: "News 3",
     aktualita4: "News 4",
+    grantTitle1: "Grant title 1",
+    grantTitle2: "Grant title 2",
+    grantTitle3: "Grant title 3",
+    grantTitle4: "Grant title 4",
     // GDPR stránka
     backToContacts: "Back to contacts",
     privacyPolicy: "Privacy Policy",
@@ -297,6 +305,10 @@ const translations = {
     aktualita2: "Aktuell 2",
     aktualita3: "Aktuell 3",
     aktualita4: "Aktuell 4",
+    grantTitle1: "Agrarförderungen 1",
+    grantTitle2: "Agrarförderungen 2",
+    grantTitle3: "Agrarförderungen 3",
+    grantTitle4: "Agrarförderungen 4",
     // GDPR stránka
     backToContacts: "Zurück zu Kontakten",
     privacyPolicy: "Datenschutzrichtlinie",

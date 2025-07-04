@@ -24,6 +24,12 @@ export default function AdminPage() {
     pdf3Url: "",
     pdf4Url: "",
   })
+  const [currentGrants, setCurrentGrants] = useState({
+    pdf1Url: "",
+    pdf2Url: "",
+    pdf3Url: "",
+    pdf4Url: "",
+  })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -44,13 +50,26 @@ export default function AdminPage() {
       })
 
       // Load news PDFs
-      const newsResponse = await fetch("/api/aktuality/pdf-url")
+      const [newsResponse, grantsResponse] = await Promise.all([
+        fetch("/api/aktuality/pdf-url"),
+        fetch("/api/dotacni-tituly/pdf-url")
+      ])
+      
       const newsData = await newsResponse.json()
+      const grantsData = await grantsResponse.json()
+      
       setCurrentNews({
         pdf1Url: newsData.pdf1Url || "",
         pdf2Url: newsData.pdf2Url || "",
         pdf3Url: newsData.pdf3Url || "",
         pdf4Url: newsData.pdf4Url || "",
+      })
+      
+      setCurrentGrants({
+        pdf1Url: grantsData.pdf1Url || "",
+        pdf2Url: grantsData.pdf2Url || "",
+        pdf3Url: grantsData.pdf3Url || "",
+        pdf4Url: grantsData.pdf4Url || "",
       })
     } catch (error) {
       console.error("Error loading data:", error)
@@ -223,6 +242,72 @@ export default function AdminPage() {
     }
   }
 
+  const handleGrantsUpload = async (file: File, pdfNumber: 1 | 2 | 3 | 4) => {
+    setUploading(true)
+    setMessage("")
+
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("pdfNumber", pdfNumber.toString())
+
+    try {
+      const response = await fetch("/api/admin/upload-dotacni-tituly", {
+        method: "POST",
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage(`Dotační titul ${pdfNumber} byl úspěšně nahrán`)
+        // Update the current grants state
+        setCurrentGrants(prev => ({
+          ...prev,
+          [`pdf${pdfNumber}Url`]: data.url
+        }))
+      } else {
+        throw new Error(data.error || "Chyba při nahrávání souboru")
+      }
+    } catch (error) {
+      console.error("Upload error:", error)
+      setMessage(error instanceof Error ? error.message : "Chyba při nahrávání souboru")
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDeleteGrants = async (pdfNumber: 1 | 2 | 3 | 4) => {
+    if (!window.confirm(`Opravdu chcete smazat aktuální PDF pro Dotační titul ${pdfNumber}?`)) {
+      return
+    }
+
+    setUploading(true)
+    setMessage("")
+
+    try {
+      const response = await fetch(`/api/admin/delete-dotacni-tituly?pdfNumber=${pdfNumber}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        setMessage(`Dotační titul ${pdfNumber} byl úspěšně smazán`)
+        // Update the current grants state
+        setCurrentGrants(prev => ({
+          ...prev,
+          [`pdf${pdfNumber}Url`]: ""
+        }))
+      } else {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Chyba při mazání souboru")
+      }
+    } catch (error) {
+      console.error("Delete error:", error)
+      setMessage(error instanceof Error ? error.message : "Chyba při mazání souboru")
+    } finally {
+      setUploading(false)
+    }
+  }
+
   const isDefaultUrl = (url: string) => {
     return url.includes("/api/menu/default/")
   }
@@ -373,6 +458,76 @@ export default function AdminPage() {
             </Card>
           </div>
         )}
+
+        {/* Dotační tituly */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center mb-8">🏛️ Správa dotačních titulů</h2>
+          <p className="text-center text-gray-600 mb-8">Nahrajte PDF soubory pro dotační tituly (max. 4)</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((num) => (
+              <Card key={`grant-${num}`}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Dotační titul {num}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                    <Input
+                      type="file"
+                      accept=".pdf"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleGrantsUpload(file, num as 1 | 2 | 3 | 4)
+                      }}
+                      disabled={uploading}
+                      className="cursor-pointer"
+                    />
+                    <p className="text-sm text-gray-500 mt-2">Pouze PDF soubory</p>
+                  </div>
+                  {uploading && <LoadingSpinner />}
+                </CardContent>
+                <CardFooter className="flex flex-col items-start space-y-2">
+                  <p className="text-sm font-medium text-gray-700">Aktuální stav:</p>
+                  {currentGrants[`pdf${num}Url` as keyof typeof currentGrants] ? (
+                    <div className="w-full">
+                      <div className="flex items-center gap-2 text-sm text-green-600">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        PDF soubor je nahrán
+                        <a
+                          href={currentGrants[`pdf${num}Url` as keyof typeof currentGrants]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline ml-2 mr-2"
+                        >
+                          Zobrazit
+                        </a>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handleDeleteGrants(num as 1 | 2 | 3 | 4)
+                          }}
+                          className="text-red-600 hover:underline text-sm"
+                          disabled={uploading}
+                        >
+                          Smazat
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                      Žádný PDF soubor není nahrán
+                    </div>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
 
         {/* Aktuality */}
         <div className="mt-12">
