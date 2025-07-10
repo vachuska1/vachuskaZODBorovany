@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /admin/  # Blokuje přístup vyhledávačů k /admin
 Disallow: /api/
 
 Sitemap: https://vachuska-zod-borovany.vercel.app/sitemap.xml
