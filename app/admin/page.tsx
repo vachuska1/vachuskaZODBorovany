@@ -9,6 +9,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { Upload, FileText } from "lucide-react"
 
+export const metadata = {
+  title: "Admin Panel | ZO Dborovany",
+  robots: "noindex, nofollow, noarchive",
+  metadataBase: new URL("https://vachuska-zod-borovany.vercel.app"), // ← ZMĚNA ZDE
+};
+
 export default function AdminPage() {
   const [password, setPassword] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
