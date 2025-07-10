@@ -14,7 +14,12 @@
   <url>
     <loc>https://www.zodborovany.cz/jidelni-listek</loc>
     <lastmod>2025-07-10</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.zodborovany.cz/kontakt</loc>
+    <lastmod>2025-07-10</lastmod>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.zodborovany.cz/dotacni-tituly</loc>
@@ -30,10 +35,5 @@
     <loc>https://www.zodborovany.cz/vos</loc>
     <lastmod>2025-07-10</lastmod>
     <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.zodborovany.cz/kontakt</loc>
-    <lastmod>2025-07-10</lastmod>
-    <priority>0.9</priority>
   </url>
 </urlset>
