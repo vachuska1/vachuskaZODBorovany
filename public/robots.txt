@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://vachuska-zod-borovany.vercel.app/sitemap.xml
+Sitemap: https://www.zodborovany.cz/sitemap.xml
