@@ -90,7 +90,7 @@ export default function ContactPage() {
     },
     {
       position: t("kitchenManager"),
-      name: "Jana Rojdlová",
+      name: "Závodní kuchyně",
       phone: "387 023 519, 778 955 601",
       email: "info@zodborovany.cz",
       multiplePhones: ["387 023 519", "778 955 601"],
