@@ -84,7 +84,7 @@ export default function ContactPage() {
     },
     {
       position: t("landManagement"),
-      name: "Ing. Aleš Vachuška",
+      name: "Ing. Karel Brůha",
       phone: "736 670 520",
       email: "pozemky@zodborovany.cz",
     },
