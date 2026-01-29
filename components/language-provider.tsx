@@ -49,7 +49,7 @@ const translations = {
     animalProductionText2:
       "Ve čtyřech odchovnách realizujeme výkrm kuřat. V areálu Borovany provozujeme malou porážku drůbeže, díky které můžeme zájemcům nabídnout kuchaná chlazená kuřata přímo od chovatele.",
     companyCanteenText1:
-      "Provozujeme závodní kuchyni, která slouží jak zaměstnancům, tak široké veřejnosti. Zaměřujeme se na tradiční českou kuchyni. <strong>Cena oběda je 115,- Kč včetně polévky.</strong> Oběd je možné konzumovat v závodní jídelně či si ho ve vlastních nádobách odnést s sebou.",
+      "Provozujeme závodní kuchyni, která slouží jak zaměstnancům, tak široké veřejnosti. Zaměřujeme se na tradiční českou kuchyni. <strong>Cena oběda je 125,- Kč včetně polévky.</strong> Oběd je možné konzumovat v závodní jídelně či si ho ve vlastních nádobách odnést s sebou.",
     companyCanteenText2:
       "V závodní kuchyni také vyrábíme houskové knedlíky, které dodáváme do místních restaurací. <strong>Cena 1 ks knedlíku o hmotnosti 600g je 40,- Kč.</strong>",
     followUs: "Sledujte nás",
@@ -163,7 +163,7 @@ const translations = {
     animalProductionText2:
       "We carry out chicken fattening in four rearing facilities. In the Borovany area, we operate a small poultry slaughterhouse, thanks to which we can offer interested parties dressed chicken directly from the breeder.",
     companyCanteenText1:
-      "We operate a company canteen that serves both employees and the general public. We focus on traditional Czech cuisine. <strong>The price of lunch is 115 CZK including soup.</strong> Lunch can be eaten in the canteen or taken away in your own containers.",
+      "We operate a company canteen that serves both employees and the general public. We focus on traditional Czech cuisine. <strong>The price of lunch is 125 CZK including soup.</strong> Lunch can be eaten in the canteen or taken away in your own containers.",
     companyCanteenText2:
       "In the company kitchen, we also produce bread dumplings, which we supply to local restaurants. <strong>The price of 1 piece of dumpling weighing 600g is 40 CZK.</strong>",
     followUs: "Follow Us",
@@ -272,7 +272,7 @@ const translations = {
     animalProductionText2:
       "Wir führen Hühnermast in vier Aufzuchtbetrieben durch. Im Bereich Borovany betreiben wir eine kleine Geflügelschlachterei, dank der wir Interessenten ausgenommenes Huhn direkt vom Züchter anbieten können.",
     companyCanteenText1:
-      "Wir betreiben eine Betriebskantine, die sowohl den Mitarbeitern als auch der breiten Öffentlichkeit dient. Wir konzentrieren uns auf die traditionelle tschechische Küche. <strong>Der Preis für das Mittagessen beträgt 115 CZK inklusive Suppe.</strong> Das Mittagessen kann in der Kantine eingenommen oder in eigenen Behältern mitgenommen werden.",
+      "Wir betreiben eine Betriebskantine, die sowohl den Mitarbeitern als auch der breiten Öffentlichkeit dient. Wir konzentrieren uns auf die traditionelle tschechische Küche. <strong>Der Preis für das Mittagessen beträgt 125 CZK inklusive Suppe.</strong> Das Mittagessen kann in der Kantine eingenommen oder in eigenen Behältern mitgenommen werden.",
     companyCanteenText2:
       "In der Betriebsküche produzieren wir auch Semmelknödel, die wir an örtliche Restaurants liefern. <strong>Der Preis für 1 Stück Knödel mit einem Gewicht von 600 g beträgt 40 CZK.</strong>",
     followUs: "Folgen Sie uns",
